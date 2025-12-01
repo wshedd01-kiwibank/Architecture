@@ -57,6 +57,7 @@ F5 -do-> IBs
 IBs-up-> F5
 F5 -do-> MWs
 
+
 customer -do-> phone
 phone -do-> SPA_CF : **SPA download**
 SPA_CF -do-> MDB_SPA_S3
@@ -70,5 +71,6 @@ istio -do-> APIM_D
 APIM_D -up-> istio
 istio -do-> mservice
 
+mservice -> F5 : **Calling Classic Services**
 
 @enduml
