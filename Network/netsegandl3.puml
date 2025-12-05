@@ -1,6 +1,6 @@
 @startuml
-frame PROD {
-    frame general {
+frame ENV {
+    frame General {
     queue subnet1
     queue subnet2
     queue subnet3
