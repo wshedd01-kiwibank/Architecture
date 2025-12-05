@@ -1,0 +1,53 @@
+@startuml
+frame PROD {
+    frame general {
+    queue subnet1
+    queue subnet2
+    queue subnet3
+    node General_VRF
+    note bottom of subnet1
+        A workload in the General area can reside on any subnet.
+        EPG rules are the zonal enforcement - not subnet based 
+        network ACLs.
+    end note
+    }
+
+    frame PCI-DSS {
+    queue subnet4
+    queue subnet5
+    node PCI_DSS_VRF
+    note bottom of subnet5
+        A workload in the PCI-DSS area can reside on any subnet.
+        EPG rules are the zonal enforcement - not subnet based 
+        network ACLs.
+    end note
+    }
+
+    frame Swift {
+    queue subnet6
+    queue subnet7
+    node Swift_VRF
+    note bottom of subnet6
+        A workload in the Swift area can reside on any subnet.
+        EPG rules are the zonal enforcement - not subnet based 
+        network ACLs.
+    end note
+    }
+    node Firewall
+}
+
+Firewall -do- General_VRF
+Firewall -do- PCI_DSS_VRF
+Firewall -do- Swift_VRF
+
+General_VRF -do- subnet1
+General_VRF -do- subnet2
+General_VRF -do- subnet3
+
+PCI_DSS_VRF -do- subnet4
+PCI_DSS_VRF -do- subnet5
+
+Swift_VRF -do- subnet6
+Swift_VRF -do- subnet7
+
+@enduml
