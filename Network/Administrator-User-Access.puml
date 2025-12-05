@@ -11,11 +11,14 @@ OFF_WORKSTATION_PC(ForeignDevice,"non-KB Device")
 OFF_WORKSTATION_PC(VDI,"Virtual Desktop")
 OFF_WORKSTATION_PC(JHST,"Jumphost")
 OFF_APPLICATION_SERVER(Server,"Server/Service")
-
-OFF_REVERSE_PROXY(zScalerC, "ZScaler Cloud")
+frame zScaler {
+    OFF_REVERSE_PROXY(zScalerC, "ZScaler Cloud")
+    OFF_REVERSE_PROXY(zScalerI, "ZScaler Internet Access")
+}
 OFF_REVERSE_PROXY(zScalerP, "ZScaler Private Access")
-OFF_REVERSE_PROXY(zScalerI, "ZScaler Internet Access")
 OFF_REVERSE_PROXY(PAM, "PAM")
+
+OFF_PUBLIC_CLOUD(SaaS,"Cloud Soln")
 
 KBAdmin -do-> KBendpoint : "using"
 KBAdmin -do-> ForeignDevice : "BYOD"
@@ -23,13 +26,22 @@ KBAdmin -do-> ForeignDevice : "BYOD"
 3rdPartyAdmin -do-> KBendpoint : "using"
 
 ForeignDevice -do-> VDI
+note right of VDI
+    AVD, Jumphost???
+end note
 VDI -do-> zScalerC
 KBendpoint -do-> zScalerC
 zScalerC -do-> zScalerP
 zScalerC -do-> zScalerI
+zScalerI -> SaaS
 zScalerP -do-> PAM
-KBendpoint ----do-> JHST : breakglass
-JHST -do-> Server : breakglass
+KBendpoint ----do-> JHST : breakglass - usage by exception
+JHST -do-> Server : breakglass  - usage by exception
+note right of JHST
+    Very limited number of use cases:
+    1. Support site blackstart
+    2. Support PAM restart
+end note
 PAM -do-> Server
 
 
