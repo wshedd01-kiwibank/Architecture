@@ -9,14 +9,19 @@ OFF_ADMINISTRATOR(3rdPartyAdmin,"3rd Party Admin")
 OFF_WORKSTATION_PC(KBendpoint,"KB Device")
 OFF_WORKSTATION_PC(ForeignDevice,"non-KB Device")
 OFF_WORKSTATION_PC(VDI,"Virtual Desktop")
-OFF_WORKSTATION_PC(JHST,"Jumphost")
-OFF_APPLICATION_SERVER(Server,"Server/Service")
+
 frame zScaler {
     OFF_REVERSE_PROXY(zScalerC, "ZScaler Cloud")
     OFF_REVERSE_PROXY(zScalerI, "ZScaler Internet Access")
 }
-OFF_REVERSE_PROXY(zScalerP, "ZScaler Private Access")
-OFF_REVERSE_PROXY(PAM, "PAM")
+
+frame Kiwibank {
+    OFF_REVERSE_PROXY(zScalerP, "ZScaler Private Access")
+    OFF_REVERSE_PROXY(PAM, "PAM")
+    OFF_WORKSTATION_PC(JHST,"Jumphost")
+    OFF_APPLICATION_SERVER(Server,"Server/Service")
+}
+
 
 OFF_PUBLIC_CLOUD(SaaS,"Cloud Soln")
 
