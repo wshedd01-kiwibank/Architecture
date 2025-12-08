@@ -43,8 +43,8 @@ frame "NZ DC" {
     }
 }
 
-"RED AWS" -- "NZ DC" : **Megaport**
-"RED NZ" -- "NZ DC" : **Megaport**
+"RED AWS" -[thickness=2]- "NZ DC" : **Megaport**
+"RED NZ" -[thickness=2]- "NZ DC" : **Megaport**
 
 customer -do-> browser
 browser -do-> AKA_WAF : **Classic and MDB - Web and API**
@@ -70,6 +70,8 @@ SYD_ALB -do-> istio
 istio -do-> APIM_D
 APIM_D -up-> istio
 istio -do-> mservice
+
+"KB AWS" -[thickness=2]- "NZ DC" : **Megaport**
 
 mservice -> F5 : **Calling Classic Services**
 note bottom of mservice 
