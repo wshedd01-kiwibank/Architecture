@@ -72,5 +72,14 @@ APIM_D -up-> istio
 istio -do-> mservice
 
 mservice -> F5 : **Calling Classic Services**
+note bottom of mservice 
+    Some services currently call NZ DC services via public path
+    e.g. calling MAS. This egresses AWs and ingress KB via Akamai as
+    depicted in this diagram.
+    Security backlog item to change these calls to use private network
+    path as specified heron this diagram.
+end note
+
+mservice -up[#red,dashed,thickness=2]-> AKA_WAF : <color:red>**misocnfigured calls from AWS to NZ DC service via public endpoint**</color>
 
 @enduml
