@@ -35,7 +35,7 @@ rectangle Kiwibank #palegreen;line:green {
 rectangle "MCP Servers\n <$drive>" {
     component Dynatrace
     component SumoLogic
-    component "Other SaaS/PaaS"
+    component "Other SaaS"
 }
 
 mservice -> APIM_D
