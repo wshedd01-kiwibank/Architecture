@@ -64,7 +64,7 @@ SPA_CF -do-> MDB_SPA_S3
 
 phone -do-> AKA_WAF : **MDB API**
 AKA_WAF -do-> API_CF : **MDB API**
-API_CF -> ALB_WAF : **API**
+API_CF -do-> ALB_WAF : **API**
 ALB_WAF -do-> SYD_ALB : **API**
 SYD_ALB -do-> istio
 istio -do-> APIM_D
