@@ -1,0 +1,55 @@
+@startuml
+
+!include <awslib/all>
+!include <azure/all>
+!include <kubernetes/k8s-sprites-unlabeled-25pct>
+!include <office/all>
+!include <osa/ics/drive/drive>
+
+rectangle Kiwibank #palegreen;line:green {
+    rectangle CIP {
+        component "<$pod>\n\nservice pod" as mservice
+        AzureAPIManagement(APIM_D,"API GW","APIM")
+    }
+    rectangle SoR {
+        component "TMV"
+        component "nCINO"
+        component "Snowflake"
+        component "Payments Hub"
+        component "..."
+    } 
+    rectangle "AI Platform" {
+        
+        file "KB System Prompts"
+        database "Vector DB"
+        rectangle "Agent" #red
+        rectangle "Prompt Generation\n <$drive>"
+        rectangle "LLM\n <$drive>"
+        file "Public LLM Models"
+        SageMaker(ML,ML,ML)
+    }
+    database "Kiwibank Hosted Data"
+    
+}
+
+rectangle "MCP Servers\n <$drive>" {
+    component Dynatrace
+    component SumoLogic
+    component "Other SaaS/PaaS"
+}
+
+mservice -> APIM_D
+APIM_D -> "Agent"
+Agent -> "Prompt Generation\n <$drive>"
+Agent -> "MCP Servers\n <$drive>"
+Agent -> SoR
+ML <- "Kiwibank Hosted Data" : **used to train**
+"KB System Prompts" -do-> "Prompt Generation\n <$drive>"
+"Prompt Generation\n <$drive>" <- "Vector DB"
+"Prompt Generation\n <$drive>" -do-> "LLM\n <$drive>"
+"Vector DB" <- "Kiwibank Hosted Data" : **used to generate**
+"LLM\n <$drive>" <- "Public LLM Models"
+
+
+
+@enduml
