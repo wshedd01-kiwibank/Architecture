@@ -1,0 +1,50 @@
+@startuml
+!include <awslib/all>
+!include <azure/all>
+!include <kubernetes/k8s-sprites-unlabeled-25pct>
+!include <office/all>
+!include <tupadr3/common>
+
+actor user
+Mobileclient(phone,mobile,MOBILE)
+Client(browser,browser,browser)
+
+frame "GCP" {
+    AzureAPIManagement(APIGEE,"APIgee","Apigee")
+}
+
+frame "KB AWS" {
+    frame "APIF" {
+        ElasticLoadBalancingApplicationLoadBalancer(APIF_ALB,ALB,SYD)    
+        frame "APIF EKS" {
+            component nginx
+            component "<$pod>\n\nservice pod" as APIF_service
+        }
+    }
+}
+
+frame "NZ DC" {
+    ElasticLoadBalancingApplicationLoadBalancer(F5,F5,NZDC)
+    frame "IB" {
+        OFF_APPLICATION_SERVER(IBs,"IB Servers")
+    }
+    frame "Middleware" {
+        OFF_APPLICATION_SERVER(MWs,"Middleware Servers")
+    }
+}
+
+APIF -[dashed,thickness=2]- "NZ DC" : **VPN**
+
+user -do-> browser
+user -do-> phone
+phone -do-> APIGEE
+browser -do-> APIGEE
+APIGEE -do-> APIF_ALB
+APIGEE -do-> APIF_ALB
+APIF_ALB -do-> nginx
+nginx -do-> APIF_service
+APIF_service -> F5 : **calling NZ DC services via VPN**
+F5 -do-> MWs
+
+
+@enduml
