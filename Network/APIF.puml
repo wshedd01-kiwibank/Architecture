@@ -25,9 +25,6 @@ frame "KB AWS" {
 
 frame "NZ DC" {
     ElasticLoadBalancingApplicationLoadBalancer(F5,F5,NZDC)
-    frame "IB" {
-        OFF_APPLICATION_SERVER(IBs,"IB Servers")
-    }
     frame "Middleware" {
         OFF_APPLICATION_SERVER(MWs,"Middleware Servers")
     }
@@ -39,7 +36,6 @@ user -do-> browser
 user -do-> phone
 phone -do-> APIGEE
 browser -do-> APIGEE
-APIGEE -do-> APIF_ALB
 APIGEE -do-> APIF_ALB
 APIF_ALB -do-> nginx
 nginx -do-> APIF_service
