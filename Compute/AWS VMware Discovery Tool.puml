@@ -1,0 +1,60 @@
+@startuml
+!include <awslib/all>
+!include <office/all>
+!include <tupadr3/common>
+
+frame AWS {
+    frame KB_LZ {
+        frame VMware_Account {
+            SimpleStorageService(S3Bucket,"Vmware Discovery Bucket",S3)
+        }
+    }
+    frame Datacom {
+        OFF_CREDENTIALS(Datacom_User,"Datacom User")
+    }
+}
+
+
+
+frame NZDC {
+    OFF_APPLICATION_SERVER(UL,"Ultracs")
+    OFF_CREDENTIALS(ULU,"Ultracs User")
+    frame VMware {
+        OFF_APPLICATION_SERVER(DS,"AWS Discovery Server")
+        frame vCentre {
+            OFF_APPLICATION_SERVER(VC,"vCentre")
+            OFF_CREDENTIALS(VCU,"vCentre User")
+        }
+
+        frame Linux {
+            OFF_APPLICATION_SERVER(LX,"Linux Servers")
+            OFF_CREDENTIALS(LXU,"Linux User")
+        } 
+        
+        frame Windows {
+            OFF_APPLICATION_SERVER(WS,"Windows Servers")        
+            OFF_CREDENTIALS(CORP_User,"CORP User")
+            OFF_CREDENTIALS(CORE_User,"CORE User")
+            OFF_CREDENTIALS(DMZ_User,"DMZ User")
+            OFF_ACTIVE_DIRECTORY(CORP)
+            OFF_ACTIVE_DIRECTORY(CORE)
+            OFF_ACTIVE_DIRECTORY(DMZ)
+        }
+    }       
+}
+
+Datacom_User -> S3Bucket : "Read Access"
+DS -up-> S3Bucket : "Disocoered Data Storage"
+DS -do-> VCU : "Connect to vCentre"
+DS -do-> LXU : "Connect to Linux Servers"
+CORP_User -do- CORP
+CORE_User -do- CORE
+DMZ_User -do- DMZ
+DS -do-> CORP_User
+DS -do-> CORE_User
+DS -do-> DMZ_User
+
+
+
+
+@enduml
