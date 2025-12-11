@@ -42,5 +42,4 @@ nginx -do-> APIF_service
 APIF_service -> F5 : **calling NZ DC services via VPN**
 F5 -do-> MWs
 
-
 @enduml

@@ -1,10 +1,12 @@
 @startuml
 !include <office/all>
+!include <azure/all>
 !include <tupadr3/common>
-
 
 OFF_ADMINISTRATOR(KBAdmin,"KB Admin")
 OFF_ADMINISTRATOR(3rdPartyAdmin,"3rd Party Admin")
+
+AzureActiveDirectory(EntraID,"EntraID","EntraID")
 
 OFF_WORKSTATION_PC(KBendpoint,"KB Device")
 OFF_WORKSTATION_PC(ForeignDevice,"non-KB Device")
@@ -22,31 +24,39 @@ frame Kiwibank {
     OFF_APPLICATION_SERVER(Server,"Server/Service")
 }
 
-
 OFF_PUBLIC_CLOUD(SaaS,"Cloud Soln")
 
-KBAdmin -do-> KBendpoint : "using"
+KBAdmin -do[#green,thickness=3]-> KBendpoint : "using"
 KBAdmin -do-> ForeignDevice : "BYOD"
 3rdPartyAdmin -do-> ForeignDevice : "using"
-3rdPartyAdmin -do-> KBendpoint : "using"
+3rdPartyAdmin -do[#green,thickness=3]-> KBendpoint : "using"
 
 ForeignDevice -do-> VDI
-note right of VDI
-    AVD, Jumphost???
+note left of VDI
+    AVD, Remote Desktop???
 end note
-VDI -do-> zScalerC
-KBendpoint -do-> zScalerC
-zScalerC -do-> zScalerP
-zScalerC -do-> zScalerI
-zScalerI -> SaaS
-zScalerP -do-> PAM
-KBendpoint ----do-> JHST : breakglass - usage by exception
-JHST -do-> Server : breakglass  - usage by exception
-note right of JHST
-    Very limited number of use cases:
-    1. Support site blackstart
+
+KBendpoint -[#blue,dashed]-> EntraID : "authN/Z"
+VDI -[#blue,dashed]-> EntraID : "authN/Z"
+zScalerC -[#blue,dashed]-> EntraID : "authN/Z"
+zScalerP -[#blue,dashed]-> EntraID : "authN/Z"
+PAM -[#blue,dashed]-> EntraID : "authN/Z"
+SaaS -[#blue,dashed]-> EntraID : "authN/Z"
+
+
+VDI -do[#green,thickness=3]-> zScalerC
+KBendpoint -do[#green,thickness=3]-> zScalerC
+zScalerC -do[#green,thickness=3]-> zScalerP
+zScalerC -do[#green,thickness=3]-> zScalerI
+zScalerI -[#green,thickness=3]> SaaS
+zScalerP -do[#green,thickness=3]-> PAM
+KBendpoint ----do[#red]-> JHST : <color:red>breakglass - usage by exception</color>
+JHST -do[#red]-> Server : <color:red>breakglass  - usage by exception</color>
+note left of JHST
+    Jumphost use cases:
+    1. Support site dark-start
     2. Support PAM restart
 end note
-PAM -do-> Server
+PAM -do[#green,thickness=3]-> Server
 
 @enduml

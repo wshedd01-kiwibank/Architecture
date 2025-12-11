@@ -52,8 +52,8 @@ browser -do-> AKA_WAF : **Classic and MDB - Web and API**
 browser -do-> SPA_CF : **SPA download**
 AKA_WAF -> RED_WAF : **Classic**
 AKA_WAF -> RED_F5 : **Classic**
-RED_WAF -do-> F5
-RED_F5 -do-> F5
+RED_WAF -do----> F5
+RED_F5 -do----> F5
 F5 -do-> IBs
 IBs-up-> F5
 F5 -do-> MWs
