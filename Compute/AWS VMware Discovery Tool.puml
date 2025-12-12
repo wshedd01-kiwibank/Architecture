@@ -3,58 +3,77 @@
 !include <office/all>
 !include <tupadr3/common>
 
+rectangle "<color:red>Red = New</color>" {
+
+}
+
 frame AWS {
     frame KB_LZ {
-        frame VMware_Account {
-            SimpleStorageService(S3Bucket,"Vmware Discovery Bucket",S3)
-        }
+        rectangle VMware_Account #line:red;line.bold; {
+            SimpleStorageService(S3Bucket,"Vmware Discovery Bucket",S3) #line:red;line.bold;
+        } 
     }
     frame Datacom {
         OFF_CREDENTIALS(Datacom_User,"Datacom User")
     }
 }
 
-
-
 frame NZDC {
-    OFF_APPLICATION_SERVER(UL,"Ultracs")
-    OFF_CREDENTIALS(ULU,"Ultracs User")
+    frame Ultracs {
+        OFF_APPLICATION_SERVER(UL,"Ultracs")
+        OFF_CREDENTIALS(ULU,"Ultracs User") #line:red;line.bold;
+        note bottom of ULU 
+                New user to enable reading Server information
+                Requires sudo setup
+            end note
+    }
+    
     frame VMware {
-        OFF_APPLICATION_SERVER(DS,"AWS Discovery Server")
+        OFF_APPLICATION_SERVER(DS,"AWS Discovery Server") #line:red;line.bold;
         frame vCentre {
             OFF_APPLICATION_SERVER(VC,"vCentre")
-            OFF_CREDENTIALS(VCU,"vCentre User")
+            OFF_CREDENTIALS(VCU,"vCentre User")  #line:red;line.bold;
+            note bottom of VCU 
+                New user to enable reading vCentre Inventory information
+            end note
         }
 
         frame Linux {
             OFF_APPLICATION_SERVER(LX,"Linux Servers")
-            OFF_CREDENTIALS(LXU,"Linux User")
+            OFF_CREDENTIALS(LXU,"Linux User") #line:red;line.bold;
+            note bottom of LXU 
+                New user to enable reading Server information
+                Requires sudo setup
+            end note
+ 
         } 
         
         frame Windows {
             OFF_APPLICATION_SERVER(WS,"Windows Servers")        
-            OFF_CREDENTIALS(CORP_User,"CORP User")
-            OFF_CREDENTIALS(CORE_User,"CORE User")
-            OFF_CREDENTIALS(DMZ_User,"DMZ User")
-            OFF_ACTIVE_DIRECTORY(CORP)
-            OFF_ACTIVE_DIRECTORY(CORE)
-            OFF_ACTIVE_DIRECTORY(DMZ)
+            OFF_CREDENTIALS(CORP_User,"CORP User") #line:red;line.bold;
+            OFF_CREDENTIALS(CORE_User,"CORE User") #line:red;line.bold;
+            OFF_CREDENTIALS(DMZ_User,"DMZ User") #line:red;line.bold;
+            OFF_ACTIVE_DIRECTORY(CORP,"CORP")
+            OFF_ACTIVE_DIRECTORY(CORE,"CORE")
+            OFF_ACTIVE_DIRECTORY(DMZ,"DMZ")
+            note bottom of WS
+                New users with domain privileges to read system data
+                using WinRM
+            end note
         }
     }       
 }
 
-Datacom_User -> S3Bucket : "Read Access"
-DS -up-> S3Bucket : "Disocoered Data Storage"
-DS -do-> VCU : "Connect to vCentre"
-DS -do-> LXU : "Connect to Linux Servers"
+Datacom_User -[#red,thickness=3]> S3Bucket : "Read Access"
+DS -up[#red,thickness=3]-> S3Bucket : "Discovered Data Storage"
+DS -do[#red,thickness=3]-> VCU : "Connect to vCentre"
+DS -do[#red,thickness=3]-> LXU : "Connect to Linux Servers"
 CORP_User -do- CORP
 CORE_User -do- CORE
 DMZ_User -do- DMZ
-DS -do-> CORP_User
-DS -do-> CORE_User
-DS -do-> DMZ_User
-
-
-
+DS -do[#red,thickness=3]-> CORP_User : "Connect ot CORP Windows Servers"
+DS -do[#red,thickness=3]-> CORE_User : "Connect ot CORE Windows Servers"
+DS -do[#red,thickness=3]-> DMZ_User : "Connect ot DMZ Windows Servers"
+DS -do[#red,thickness=3]-> ULU : "Connect to Ultracs"
 
 @enduml
