@@ -42,10 +42,10 @@ frame AWS_Route53 {
         database dev.aws.kiwibank.co.nz
     }
     frame "Application Account" {
-        database app.prod.aws.kiwibank.co.nz
-        database app.qa.aws.kiwibank.co.nz
-        database app.test.aws.kiwibank.co.nz
-        database app.dev.aws.kiwibank.co.nz
+        database appname.prod.aws.kiwibank.co.nz
+        database appname.qa.aws.kiwibank.co.nz
+        database appname.test.aws.kiwibank.co.nz
+        database appname.dev.aws.kiwibank.co.nz
     }
 }
 
@@ -63,9 +63,9 @@ aws.kiwibank.co.nz -do-> qa.aws.kiwibank.co.nz : **delegation**
 aws.kiwibank.co.nz -do-> test.aws.kiwibank.co.nz : **delegation**
 aws.kiwibank.co.nz -do-> dev.aws.kiwibank.co.nz : **delegation**
 
-prod.aws.kiwibank.co.nz -do-> app.prod.aws.kiwibank.co.nz : **delegation**
-qa.aws.kiwibank.co.nz -do-> app.qa.aws.kiwibank.co.nz : **delegation**
-test.aws.kiwibank.co.nz -do-> app.test.aws.kiwibank.co.nz : **delegation**
-dev.aws.kiwibank.co.nz -do-> app.dev.aws.kiwibank.co.nz : **delegation**
+prod.aws.kiwibank.co.nz -do-> appname.prod.aws.kiwibank.co.nz : **delegation**
+qa.aws.kiwibank.co.nz -do-> appname.qa.aws.kiwibank.co.nz : **delegation**
+test.aws.kiwibank.co.nz -do-> appname.test.aws.kiwibank.co.nz : **delegation**
+dev.aws.kiwibank.co.nz -do-> appname.dev.aws.kiwibank.co.nz : **delegation**
 
 @enduml
