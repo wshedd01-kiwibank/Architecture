@@ -19,6 +19,7 @@ frame AWS {
 }
 
 frame NZDC {
+    OFF_REVERSE_PROXY(PRXY,"Outgoing Proxy")
     frame Ultracs {
         OFF_APPLICATION_SERVER(UL,"Ultracs")
         OFF_CREDENTIALS(ULU,"Ultracs User") #line:red;line.bold;
@@ -30,6 +31,10 @@ frame NZDC {
     
     frame VMware {
         OFF_APPLICATION_SERVER(DS,"AWS Discovery Server") #line:red;line.bold;
+        note left of DS
+            Firewall rules to allow Discovery Server to communicate with
+            EVERY server in the environment
+        end note
         frame vCentre {
             OFF_APPLICATION_SERVER(VC,"vCentre")
             OFF_CREDENTIALS(VCU,"vCentre User")  #line:red;line.bold;
@@ -65,7 +70,8 @@ frame NZDC {
 }
 
 Datacom_User -[#red,thickness=3]> S3Bucket : "Read Access"
-DS -up[#red,thickness=3]-> S3Bucket : "Discovered Data Storage"
+DS -up[#red,thickness=3]-> PRXY
+PRXY -up[#red,thickness=3]-> S3Bucket : "Discovered Data Storage"
 DS -do[#red,thickness=3]-> VCU : "Connect to vCentre"
 DS -do[#red,thickness=3]-> LXU : "Connect to Linux Servers"
 CORP_User -do- CORP
