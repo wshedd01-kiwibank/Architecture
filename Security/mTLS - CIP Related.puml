@@ -1,0 +1,47 @@
+@startuml
+autonumber
+==Internet Client to CIP Service==
+"Internet mTLS Client" -[#red]>o "Akamai WAF" ++ #ff0000 : <color red>mTLS/HTTP</color>
+"Akamai WAF" -> "Akamai WAF" : mTLS Terminate
+"Akamai WAF" -> "Akamai WAF" : Internet Client mTLS cert into HTTP Header
+"Akamai WAF" -[#red]>o "AWS WAF" -- : <color red>mTLS/HTTP</color>
+note right
+    AWS WAF allows connection from ONLY Akamai IPs
+    Forward Header from Akamai
+end note
+"AWS WAF" ->o "AWS ALB" 
+"AWS ALB" ->o "Istio"
+"Istio" -[#red]>o "APIM" : <color red>mTLS/HTTP</color>
+note right
+  Consume forwarded header from Akamai
+  end note
+"APIM" -[#red]>o "Istio" : <color red>mTLS/HTTP</color>
+note left
+  Istio validates APIM cert
+  end note
+"Istio" -[#red]>o "Service" : <color red>mTLS/HTTP</color>
+note right
+  Consume forwarded header from Akamai
+  end note
+
+==CIP to CIP Hosted Service==
+autonumber
+Service_A -[#red]>o Istio : <color red>mTLS/HTTP</color>
+Istio ->o APIM 
+note right
+  "APIM updates header based on Service_A AuthN"
+  end note
+APIM -[#red]>o Istio : <color red>mTLS/HTTP</color>
+note right
+   Istio validates APIM certificate
+   end note
+
+Istio -[#red]>o Service_B : <color red>mTLS/HTTP</color>
+
+==CIP to 3rd Party mTLS==
+autonumber
+CIP_Hosted_Service -[#red]>o Istio : <color red>mTLS/HTTP</color>
+Istio ->o APIM :
+APIM ->o 3rd_Party_Service : 3rd Party dependant
+
+@enduml
