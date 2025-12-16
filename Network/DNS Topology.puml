@@ -1,25 +1,40 @@
 @startuml
 package CSC_Global  [
     Registrar
-    kiwibank.co.nz GLUE records
+    Kiwibank GLUE records
 ]
 
 frame Akamai_EdgeDNS {
     database Akamai_Edge [
-        external
-        kiwibank.co.nz
+        external zones
     ]
 }
 
 frame Infoblox {
     database external_zones [
-        external
+        external zones - hidden master
         kiwibank.co.nz
+        kiwibank.app
+        kiwibank.asia
+        kiwibank.biz
+        kiwibank.cards
+        kiwibank.club
+        kiwibank.cm
+        kiwibank.co
+        kiwibank.co.uk
+        kiwibank.com
+        kiwibank.digital
+        kiwibank.kiwi
+        kiwibank.limited
+        kiwibank.net
+        kiwibank.net.nz
+        kiwibank.nz
+        kiwibank.one
+        kiwibank.online
     ]
     database internal_zones [
         internal
         kiwibank.co.nz
-        bank.nzpfs.co.nz
         <color:red>kiwbank.internal</color>
     ]
 }
@@ -29,6 +44,8 @@ frame MSAD_DNS {
     database corp.bank.nzpfs.co.nz
     database dmz.kiwibank.co.nz
     database core.bank.nzpfs.co.nz
+    database bank.nzpfs.co.nz
+    database network.nzpfs.co.nz
 }
 
 frame AWS_Route53 {
@@ -53,8 +70,10 @@ CSC_Global -do- Internet
 Akamai_EdgeDNS -up- Internet
 
 external_zones -up-> Akamai_Edge : **Zone XFER**
-internal_zones -do-> corp.bank.nzpfs.co.nz : **delegation**
-internal_zones -do-> core.bank.nzpfs.co.nz : **delegation**
+internal_zones -do-> bank.nzpfs.co.nz : **forwarding**
+internal_zones -do-> network.nzpfs.co.nz : **forwarding**
+bank.nzpfs.co.nz -do-> corp.bank.nzpfs.co.nz : **delegation**
+bank.nzpfs.co.nz -do-> core.bank.nzpfs.co.nz : **delegation**
 internal_zones -do-> dmz.kiwibank.co.nz : **delegation**
 internal_zones -do-> aws.kiwibank.co.nz : **delegation**
 

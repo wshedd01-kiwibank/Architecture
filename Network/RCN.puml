@@ -1,0 +1,58 @@
+@startuml
+!include <office/all>
+!include <tupadr3/common>
+
+cloud "Cello Internet"
+cloud "Global Internet"
+
+frame Branch {
+    OFF_ROUTER(BranchFW,"Firewall")
+    OFF_SWITCH(BranchSW,"Switch")
+}
+
+frame NZDC {
+    OFF_SWITCH(DCFW,"RCN Firewall")
+    OFF_SWITCH(TZFW,"Transit Zone Firewall")
+    OFF_SWITCH(IntFW,"Internal Firewall")
+    rectangle "Internal Network"
+}
+
+frame "AU Hosted Critical SaaS" {
+    OFF_3RD_PARTY_CALL_CENTER_SOLUTION(Genesys,"Genesys")
+    OFF_PUBLIC_IM_CLOUD_SERVICE(MSTeams,"Teams")
+    OFF_EMAIL_WORKLOAD(Exchange,"Exchange Online")
+    OFF_3RD_PARTY_SERVICE(Unit4,"Unit4")
+    OFF_3RD_PARTY_SERVICE(Confluence,"Confleunce")
+    OFF_3RD_PARTY_SERVICE(salesforce,"Salesforce")
+    OFF_3RD_PARTY_SERVICE(ServiceNow,"ServiceNow")
+
+}
+
+frame "AWS AU" {
+    OFF_SWITCH(TransitGW,"Transit Gateway")
+    OFF_SWITCH(AWSGW,"AWS Egress Firewall")
+}
+
+"Cello Internet" -up- "Global Internet" : "NZ peering"
+"Cello Internet" -- DCFW
+DCFW -- IntFW
+IntFW -- "Internal Network"
+IntFW -up- TZFW
+TZFW -up- TransitGW : "Megaport Private Network"
+"Cello Internet" -- BranchFW
+BranchFW -- BranchSW
+AWSGW -- "Global Internet" : "AU peering"
+TransitGW -- AWSGW
+"AU Hosted Critical SaaS" -- "Global Internet" : "AU peering"
+
+note left of "Global Internet"
+    If there is a NZ-based problem here CAN we route via NZ DC and AWS path?
+
+    Manual failover/ reconfiguration timeframes are likely acceptable,
+    but not timeframes that include design / trial and error.
+    That is - we know how, and maybe have code to do. But to have
+    BGP etc in place to automate MAY be a bit OTT.
+end note
+
+
+@enduml
