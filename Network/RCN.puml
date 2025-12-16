@@ -47,6 +47,7 @@ TransitGW -- AWSGW
 
 note left of "Global Internet"
     If there is a NZ-based problem here CAN we route via NZ DC and AWS path?
+    That is - 'egress' via AWS AU, and the AU peering.
 
     Manual failover/ reconfiguration timeframes are likely acceptable,
     but not timeframes that include design / trial and error.
