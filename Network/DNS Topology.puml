@@ -38,6 +38,7 @@ frame Infoblox {
         <color:red>kiwbank.internal</color>
     ]
 }
+
 cloud Internet
 
 frame MSAD_DNS {
