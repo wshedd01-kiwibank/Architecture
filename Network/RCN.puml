@@ -48,6 +48,18 @@ frame "Critical SaaS" {
     zScaler -do- Teller
     zScaler -do- ServiceNow
     zScaler -do- Exchange
+    OFF_3RD_PARTY_SERVICE(MCCP,"Meraki Cloud Control Plane")
+}
+
+frame "Cello Mgmt" {
+    OFF_3RD_PARTY_SERVICE(Monitoring)
+    OFF_3RD_PARTY_SERVICE(NMC)
+    OFF_3RD_PARTY_SERVICE(CiscoMgmt,"Cisco Mgmt")
+    OFF_WORKSTATION(CelloWKS,"Admin")
+    Monitoring -- CelloWKS : "Access"
+    NMC -- CelloWKS : "Access"
+    MCCP -- CelloWKS : "Access"
+    CiscoMgmt -- CelloWKS : "Access"
 }
 
 frame "AWS AU" {
@@ -61,6 +73,7 @@ frame "AWS AU" {
 TZFW -up- TransitGW : "Megaport Private Network"
 TZFW -up- "Global Internet" : "Vocus & Spark"
 "Cello Internet" -- BranchFW
+"Cello Internet" -- "Cello Mgmt"
 
 AWSGW -do- "Global Internet"
 "Critical SaaS" -do- "Global Internet"
