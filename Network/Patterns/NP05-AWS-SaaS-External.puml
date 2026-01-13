@@ -1,0 +1,21 @@
+@startuml
+!include <office/all>
+!include <tupadr3/common>
+!include <awslib/all>
+
+
+cloud "Global Internet"
+
+frame AWS {
+    TransitGateway(AWSTGW,"Transit Gateway",TGW)
+    frame "Network VPC" {
+        FirewallManager(AWSFW,"AWS Firewall",FirewallManager)
+    }
+    frame WorkloadVPC {
+        EC2(EC2WRK,"Workload",EC2)
+    }
+    AWSTGW -do- "Network VPC"
+    AWSTGW -do- WorkloadVPC
+}
+
+@enduml
