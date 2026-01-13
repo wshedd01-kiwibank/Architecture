@@ -5,17 +5,33 @@
 
 
 cloud "Global Internet"
+cloud "Megaport"
 
-frame AWS {
+rectangle AWS {
     TransitGateway(AWSTGW,"Transit Gateway",TGW)
-    frame "Network VPC" {
+    rectangle "Network VPC" {
         FirewallManager(AWSFW,"AWS Firewall",FirewallManager)
+        FirewallManager(FGTFW,"Fortigate NGFW",Fortigate)
     }
-    frame WorkloadVPC {
-        EC2(EC2WRK,"Workload",EC2)
+    rectangle "Workload VPC" {
+        EC2(EC2WRK,"Workload",EC2/EKS)
     }
     AWSTGW -do- "Network VPC"
-    AWSTGW -do- WorkloadVPC
+    AWSTGW -do- "Workload VPC"
 }
+
+rectangle SaaS {
+    OFF_ROUTER(SaaSrtr,"Router")
+    OFF_APPLICATION_WEB(SaaSApp,"SaaS Application")
+}
+
+"SaaSrtr" -do- "Global Internet"
+"Global Internet" -do- FGTFW : "Over Internet - not Used for critical applications"
+"Global Internet" -do- AWSTGW
+
+Megaport -do[#red]- AWSTGW : DirectConnect
+Megaport -do[#red]- SaaSrtr : VXC
+
+SaaSrtr .[#DarkOrange]. AWSTGW : VPN 
 
 @enduml
