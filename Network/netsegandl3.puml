@@ -10,6 +10,9 @@ frame ENV {
         EPG rules are the zonal enforcement - not subnet based 
         network ACLs.
     end note
+    General_VRF -do- subnet1
+    General_VRF -do- subnet2
+    General_VRF -do- subnet3
     }
 
     frame PCI-DSS {
@@ -21,6 +24,8 @@ frame ENV {
         EPG rules are the zonal enforcement - not subnet based 
         network ACLs.
     end note
+    PCI_DSS_VRF -do- subnet4
+    PCI_DSS_VRF -do- subnet5
     }
 
     frame Swift {
@@ -32,6 +37,8 @@ frame ENV {
         EPG rules are the zonal enforcement - not subnet based 
         network ACLs.
     end note
+    Swift_VRF -do- subnet6
+    Swift_VRF -do- subnet7
     }
     node Firewall
 }
@@ -39,15 +46,5 @@ frame ENV {
 Firewall -do- General_VRF
 Firewall -do- PCI_DSS_VRF
 Firewall -do- Swift_VRF
-
-General_VRF -do- subnet1
-General_VRF -do- subnet2
-General_VRF -do- subnet3
-
-PCI_DSS_VRF -do- subnet4
-PCI_DSS_VRF -do- subnet5
-
-Swift_VRF -do- subnet6
-Swift_VRF -do- subnet7
 
 @enduml
