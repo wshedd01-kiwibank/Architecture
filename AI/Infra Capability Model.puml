@@ -1,0 +1,62 @@
+@startuml
+!global $ARCH_SPECIAL_SHAPES = %true()
+!include <archimate/Archimate>
+ 
+Strategy_Capability(Technology,"Technology") {
+    Strategy_Capability(AppDelivery,"Application Delivery") {
+        Strategy_Capability(APIGW,"API Gateway") {
+            Application_Service(APIGEE,"APIgee")
+            Application_Service(APIM,"Microsoft APIM")
+        }
+        Strategy_Capability(CDN,"CDN") {
+            Application_Service(CloudFront,"AWS CloudFront") 
+        }
+        Strategy_Capability(Eventing, "Events") {
+            Application_Service(Confluent,"Confluent Kafka")
+        }
+        Strategy_Capability(LB,"Load Balancing") {
+            Application_Service(AWSELB,"AWS ELB")
+            Application_Service(AWSALB,"AWS ALB")
+            Application_Service(f5,"f5 Big-Iron")
+            Application_Service(NetScaler,"Citrix Netscaler")
+        }
+        Strategy_Capability(MESH,"Service Mesh") {
+            Application_Component(ISTIO,"Istio")
+        }
+        Strategy_Capability(WAF,"Web Application Firewall") {
+            Application_Service(AKAMAI_WAF,"Akamai WAF")
+            Application_Service(AWS_WAF,"AWS WAF")
+            Application_Service(REDSHIELD,"RedShield")
+        }
+    }
+    Strategy_Capability(Compute,"Compute") {
+        Strategy_Capability(NonX86,"Non X86") {
+            Technology_Device(IBMP,"IBM P Series")
+        }
+        Strategy_Capability(X86,"X86") {
+            Technology_Device(UCS,"Cisco UCS")
+        }
+        Strategy_Capability(Serverless,"Serverless") {
+            Technology_Service(Lambda,"AWS Lambda")
+        }
+        Strategy_Capability(Virtual,"Virtualization") {
+            Technology_SystemSoftware(VMware,"VMware")
+            Technology_SystemSoftware(POWERVM,"IBM PowerVM")
+            Technology_Service(EC2,"AWS EC2")
+        }
+        Strategy_Capability(Containers,"Containers") {
+            Technology_Service(AWSEKS,"AWS EKS")
+            Technology_SystemSoftware(PODMAN,"Podman")
+        }
+        Strategy_Capability(ComputeManage,"Compute Management") {
+            Application_Component(UCSM,"Cisco UCS Manager")
+            Technology_Device(HMC,"IBM Power HMC")
+        }
+        Strategy_Capability(OnsiteCompute,"Office/Branch/IoT") {
+            
+        }
+    }
+}
+
+
+@enduml
