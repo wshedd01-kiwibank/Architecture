@@ -2,7 +2,7 @@
 !global $ARCH_SPECIAL_SHAPES = %true()
 !include <archimate/Archimate>
  
-Strategy_Capability(Technology,"Technology") {
+Strategy_Capability(Infrastructure,"Infrastructure") {
     Strategy_Capability(AppDelivery,"Application Delivery") {
         Strategy_Capability(APIGW,"API Gateway") {
             Application_Service(APIGEE,"APIgee")
@@ -29,6 +29,7 @@ Strategy_Capability(Technology,"Technology") {
             Application_Service(REDSHIELD,"RedShield")
         }
     }
+
     Strategy_Capability(Compute,"Compute") {
         Strategy_Capability(NonX86,"Non X86") {
             Technology_Device(IBMP,"IBM P Series")
@@ -50,13 +51,73 @@ Strategy_Capability(Technology,"Technology") {
         }
         Strategy_Capability(ComputeManage,"Compute Management") {
             Application_Component(UCSM,"Cisco UCS Manager")
+            Application_Component(VCenter,"VMware vCenter")
             Technology_Device(HMC,"IBM Power HMC")
+            Technology_Node(NETBOX,"Netbox")
         }
         Strategy_Capability(OnsiteCompute,"Office/Branch/IoT") {
-            
+
         }
     }
-}
 
+    Strategy_Capability(Network,"Network") {
+        Strategy_Capability(Switching,"Switching") {
+            Technology_Device(NEXUS,"Cisco Nexus")
+        }
+        Strategy_Capability(Routing,"Routing") {
+            Technology_Device(ASR,"Cisco ASR")
+            Technology_Service(AWSTGW,"AWS Transit Gateway")
+            Technology_Service(MCR,"Megaport Cloud Router")
+            Technology_Node(FWALLS,"Firewalls")
+        }
+        Strategy_Capability(WAN,"WAN") {
+            Technology_Service(Megaport,"Megaport")
+            Technology_Service(AWSDX,"AWS DirectConnect")
+            Technology_Service(AWSPL,"AWS PrivateLink")
+            Technology_Service(BANKNET,"Banknet (Spark)")
+            Technology_Service(RCN,"Retail Network (Spark)")
+        }
+        Strategy_Capability(SDN,"Software Defined Networking") {
+            Technology_Collaboration(ACI,"Cisco ACI")
+            Technology_Service(AWSVPC,"AWS VPC")
+            Technology_Service(AZRVNET,"Azure vNet")
+            Technology_Collaboration(FGTSDWAN,"Fortigate SD-WAN")
+            Technology_Collaboration(CHKPTVPN,"Checkpoint VPN")
+        }
+        Strategy_Capability(PUBNET,"Public Networks") {
+            Technology_CommunicationNetwork(SPRKINT,"Spark Internet")
+            Technology_CommunicationNetwork(VOCUS,"Vocus Internet")
+            Technology_CommunicationNetwork(SPRK4G,"Spark 4G")
+        }
+        Strategy_Capability(NETSEC,"Network Security") {
+            Technology_Node(CHKPT,"Checkpoint FW")
+            Technology_Node(FGTFW,"Fortigate FW")
+            Technology_Collaboration(ILLUMIO,"Illumio")
+            Technology_Device(RADWARE,"RADware DefensePro")
+            Technology_Service(PROLEXIC,"Akamai Prolexic")
+            Technology_Service(AWSFW,"AWS Firewall")
+            Technology_Service(AWSSHLD,"AWS Shield/Advanced")
+            Technology_Service(AZRFW,"Azure Firewall")
+        }
+        Strategy_Capability(NETMGMT,"Network Management") {
+            Technology_Node(APIC,"Cisco ACI APIC")
+            Technology_Service(SOLARIPAM,"Solarwinds IPAM")
+            Technology_Node(FGTANAL,"FortiAnalyzer")
+            Technology_Node(FGTMAN,"FortiManager")
+            Technology_Service(SOLARSNMP,"Solarwinds SNMP Monitoring")
+            Technology_Service(SOLARNCM,"Solarwinds Network Config Manager")
+        }
+        Strategy_Capability(NETSVCS,"Network Services") {
+            Technology_Service(MSDHCP,"Micorosft DHCP")
+            Technology_Service(AKADNS,"Akamai EdgeDNS")
+            Technology_Service(AWSR53,"AWS Route53")
+            Technology_Service(AZRDNS,"Azure DNS")
+            Technology_Service(CSCGBL,"CSC Global DNS Registrar")
+            Technology_Node(INFOBLX,"Infoblox DNS")
+            Technology_Service(NTP,"Microsoft NTP")
+        }
+    }
+
+}
 
 @enduml

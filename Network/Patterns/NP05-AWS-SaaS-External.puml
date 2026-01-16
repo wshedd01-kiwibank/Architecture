@@ -12,6 +12,9 @@ rectangle AWS {
     rectangle "Network VPC" {
         FirewallManager(AWSFW,"AWS Firewall",FirewallManager)
         FirewallManager(FGTFW,"Fortigate NGFW",Fortigate)
+        note bottom of FGTFW
+            Fortigate will be routed in-path if NAT is required.
+        end note
     }
     rectangle "Workload VPC" {
         EC2(EC2WRK,"Workload",EC2/EKS)
