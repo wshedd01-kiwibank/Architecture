@@ -18,7 +18,7 @@ Business_Location(AWS,"AWS Landing Zones") {
         Technology_Service(AWSVPC,"VPC")
     }
 }
-Business_Location(Azure,"Azure Landing Zone") {
+Business_Location(Azure,"Azure Landing Zones") {
     Technology_Service(AZRIPAM,"IPAM") {
         Application_DataObject(AZRRegister,"IP Address Register")
     }
