@@ -1,0 +1,40 @@
+@startuml
+!global $ARCH_SPECIAL_SHAPES = %true()
+!include <archimate/Archimate>
+ 
+Business_Location(NZDC,"New Zealand Datacenters") {
+    Technology_Service(NZDCIPAM,"IPAM") {
+        Application_Component(SOLARIPAM,"Solarwinds IPAM")
+    }
+    Technology_Service(NZDCDHCP,"DHCP") {
+        Application_Component(MSDHCP,"Microsoft DHCP")
+    }
+}
+Business_Location(AWS,"AWS Landing Zones") {
+    Technology_Service(AWSIPAM,"IPAM") {
+        Application_DataObject(AWSRegister,"IP Address Register")
+    }
+    Technology_Service(AWSDHCP,"DHCP") {
+        Technology_Service(AWSVPC,"VPC")
+    }
+}
+Business_Location(Azure,"Azure Landing Zone") {
+    Technology_Service(AZRIPAM,"IPAM") {
+        Application_DataObject(AZRRegister,"IP Address Register")
+    }
+    Technology_Service(AZRDHCP,"DHCP") {
+        Application_DataObject(AZRVNET,"VNet")
+    }
+}
+Business_Location(Offices,"Kiwibank Offices") {
+    Technology_Service(OFFIPAM,"IPAM")
+    Technology_Service(OFFDHCP,"DHCP")
+}
+Business_Location(Retail,"Branches and Agents") {
+    Technology_Service(RETIPAM,"IPAM")
+    Technology_Service(RETDHCP,"DHCP") {
+        Technology_Service(CELLO_DHCP,"Cello DHCP")
+    }
+}
+
+@enduml
