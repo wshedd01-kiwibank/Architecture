@@ -28,7 +28,9 @@ Business_Location(Azure,"Azure Landing Zones") {
 }
 Business_Location(Offices,"Kiwibank Offices") {
     Technology_Service(OFFIPAM,"IPAM")
-    Technology_Service(OFFDHCP,"DHCP")
+    Technology_Service(OFFDHCP,"DHCP") {
+        Technology_Node(OFFFGT,"Office Fortigate DHCP")
+    }
 }
 Business_Location(Retail,"Branches and Agents") {
     Technology_Service(RETIPAM,"IPAM")
