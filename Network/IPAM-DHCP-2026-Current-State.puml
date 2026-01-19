@@ -12,7 +12,10 @@ Business_Location(NZDC,"New Zealand Datacenters") {
 }
 Business_Location(AWS,"AWS Landing Zones") {
     Technology_Service(AWSIPAM,"IPAM") {
-        Application_DataObject(AWSRegister,"IP Address Register")
+        Application_DataObject(AWSRegister,"IP Address Register") {
+            Application_DataObject(AWSIPTFRES,"Terraform Resource")
+            Application_DataObject(AWSIPCONF,"Confluence Pages")
+        }
     }
     Technology_Service(AWSDHCP,"DHCP") {
         Technology_Service(AWSVPC,"VPC")
