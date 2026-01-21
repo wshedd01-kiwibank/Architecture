@@ -1,7 +1,58 @@
 @startuml
-!include <office/all>
-!include <tupadr3/common>
+!global $ARCH_SPECIAL_SHAPES = %true()
+!include <archimate/Archimate>
 
+Application_Component(CENTIPAM,"Central IPAM")
+Application_Component(CENTDNS,"Central DNS")
+Application_Component(CENTDHCP,"Central DHCP")
 
+Business_Location(NZDC,"New Zealand Datacenters") {
+    Technology_Service(NZDCIPAM,"IPAM") {
+    }
+    Technology_Service(NZDCDHCP,"DHCP") {
+        Application_Component(NZDCDHCPRLY,"DHCP Relay")
+    }
+}
+Business_Location(AWS,"AWS Landing Zones") {
+    Technology_Service(AWSIPAM,"IPAM")
+    Technology_Service(AWSDHCP,"DHCP") {
+        Technology_Service(AWSVPC,"VPC")
+    }
+}
+Business_Location(Azure,"Azure Landing Zones") {
+    Technology_Service(AZRIPAM,"IPAM")
+    Technology_Service(AZRDHCP,"DHCP") {
+        Technology_Service(AZRVNET,"VNet")
+    }
+}
+Business_Location(Offices,"Kiwibank Offices") {
+    Technology_Service(OFFIPAM,"IPAM") {
+        Technology_Service(OFFBNKIPAM,"IPAM")
+    }
+    Technology_Service(OFFDHCP,"DHCP") {
+        Technology_Node(OFFFGT,"Office Fortigate DHCP")
+    }
+}
+Business_Location(Retail,"Branches and Agents") {
+    Technology_Service(RETIPAM,"IPAM") {
+        Technology_Service(RETNETIPAM,"IPAM")
+    }
+    Technology_Service(RETDHCP,"DHCP") {
+        Technology_Service(CELLO_DHCP,"Cello DHCP")
+    }
+}
+
+CENTIPAM <-do- NZDCIPAM : uses
+CENTIPAM <-do- AWSIPAM : uses
+CENTIPAM <-do- AZRIPAM : ues
+
+CENTDNS <---do- AWSDHCP : updates
+CENTDNS <---do- AZRDHCP : updates
+CENTDNS <---do- OFFDHCP : updates
+CENTDNS <---do- RETDHCP : updates
+
+CENTDHCP <--do- NZDCDHCPRLY : relay to
+CENTDHCP <--do-> AWSVPC : DHCP Integration
+CENTDHCP <--do-> AZRVNET : DHCP Integration
 
 @enduml

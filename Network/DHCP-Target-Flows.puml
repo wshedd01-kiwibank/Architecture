@@ -3,24 +3,22 @@
 !include <tupadr3/common>
 
 OFF_USER(Admin,"Admin")
-OFF_DOCUMENT(TFMOD,"Terraform Module")
-OFF_DOCUMENT(TFVARS,"Terraform Variables")
-OFF_CENTRAL_MANAGEMENT_SERVICE(TF,"Terraform")
+OFF_DOCUMENT(IACCMMOD,"IaC/CM Modules")
+OFF_DOCUMENT(IACCMVAR,"Terraform Variables")
+OFF_CENTRAL_MANAGEMENT_SERVICE(IACCM,"IaC/CM Engine")
 OFF_CENTRAL_MANAGEMENT_SERVICE(DHCP,"DHCP")
 OFF_CENTRAL_MANAGEMENT_SERVICE(DNS,"DNS")
 OFF_CENTRAL_MANAGEMENT_SERVICE(IPAM,"IPAM")
 OFF_APPLICATION_SERVER(SRV,"System")
 
-Admin -> TFVARS 
-TFMOD -> TF
-TFVARS -do-> TF
-TF <-> IPAM : Get and reserve address
-TF -do-> DHCP : Configure DHCP
+Admin -> IACCMVAR
+IACCMMOD -> IACCM
+IACCMVAR -do-> IACCM
+IACCM <-> IPAM : Get and reserve address
+IACCM -do-> DHCP : Configure DHCP
 DHCP <-do- SRV : get IP config
 DHCP -> DNS : update DDNS
 DHCP -up-> IPAM : update IPAM
-
-
-
+IACCM --do-> SRV : System Provisionig
 
 @enduml
