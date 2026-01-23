@@ -1,0 +1,23 @@
+@startuml
+actor Admin
+== Server Style Workload - Creation - Static Reservation ==
+Admin -> "IaC/CM Config" : write workload config files
+"IaC/CM Modules" -> "IaC/CM Engine" : use modules
+"IaC/CM Config" -> "IaC/CM Engine" : read config
+"IaC/CM Engine" -> IPAM : send hostname, desired network etc.
+IPAM -> IPAM : allocate addresses
+IPAM -> DHCP : send workload information
+IPAM -> DNS : configure any special records e.g. CNAME
+"IaC/CM Engine" -> Workload : create/configure - use DHCP
+Workload -> Workload : Startup
+DHCP <- Workload : Get IP config - static reservation
+DHCP -> DNS : create workload record
+DHCP -> IPAM : update workload record
+
+== Laptop Type Workload - use pool address ==
+Workload -> Workload : Startup
+DHCP <- Workload : Get IP config - pool address
+DHCP -> DNS : create workload record
+DHCP -> IPAM : update workload record
+
+@enduml

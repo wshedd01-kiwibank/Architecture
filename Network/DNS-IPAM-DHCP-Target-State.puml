@@ -12,47 +12,56 @@ Business_Location(NZDC,"New Zealand Datacenters") {
     Technology_Service(NZDCDHCP,"DHCP") {
         Application_Component(NZDCDHCPRLY,"DHCP Relay")
     }
+    Technology_Service(NZDCDNS,"DNS")
 }
 Business_Location(AWS,"AWS Landing Zones") {
     Technology_Service(AWSIPAM,"IPAM")
     Technology_Service(AWSDHCP,"DHCP") {
         Technology_Service(AWSVPC,"VPC")
     }
+    Technology_Service(ROUTE53,"DNS")
 }
 Business_Location(Azure,"Azure Landing Zones") {
     Technology_Service(AZRIPAM,"IPAM")
     Technology_Service(AZRDHCP,"DHCP") {
         Technology_Service(AZRVNET,"VNet")
     }
+    Technology_Service(AZRDNS,"DNS")
 }
 Business_Location(Offices,"Kiwibank Offices") {
     Technology_Service(OFFIPAM,"IPAM") {
-        Technology_Service(OFFBNKIPAM,"IPAM")
+        Technology_Service(OFFBNKIPAM,"Supplier IPAM")
     }
     Technology_Service(OFFDHCP,"DHCP") {
-        Technology_Node(OFFFGT,"Office Fortigate DHCP")
+        Technology_Service(OFFBNKDHCP,"Office Fortigate DHCP")
     }
 }
 Business_Location(Retail,"Branches and Agents") {
     Technology_Service(RETIPAM,"IPAM") {
-        Technology_Service(RETNETIPAM,"IPAM")
+        Technology_Service(RETNETIPAM,"Supplier IPAM")
     }
     Technology_Service(RETDHCP,"DHCP") {
-        Technology_Service(CELLO_DHCP,"Cello DHCP")
+        Technology_Service(RETNETDHCP,"Cello DHCP")
     }
 }
 
-CENTIPAM <-do- NZDCIPAM : uses
-CENTIPAM <-do- AWSIPAM : uses
-CENTIPAM <-do- AZRIPAM : ues
+CENTIPAM -do-> NZDCIPAM : provides
+CENTIPAM -do-> AWSIPAM : provides
+CENTIPAM -do-> AZRIPAM : provides
+CENTIPAM <.do.> RETNETIPAM : integration
+CENTIPAM <.do.> OFFBNKIPAM : integration
 
-CENTDNS <---do- AWSDHCP : updates
-CENTDNS <---do- AZRDHCP : updates
-CENTDNS <---do- OFFDHCP : updates
-CENTDNS <---do- RETDHCP : updates
+
+AZRVNET -> AZRDNS : updates
+AWSVPC -> ROUTE53 : updates
+CENTDNS ---do-> ROUTE53 : delegation
+CENTDNS ---do-> AZRDNS : delegation
+CENTDNS ---do-> NZDCDNS : provides
+CENTDNS <...do. OFFBNKDHCP : updates
+CENTDNS <...do. RETNETDHCP : updates
+CENTDNS <- CENTDHCP : updates
 
 CENTDHCP <--do- NZDCDHCPRLY : relay to
-CENTDHCP <--do-> AWSVPC : DHCP Integration
-CENTDHCP <--do-> AZRVNET : DHCP Integration
+
 
 @enduml

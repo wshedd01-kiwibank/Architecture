@@ -4,7 +4,7 @@
 
 OFF_USER(Admin,"Admin")
 OFF_DOCUMENT(IACCMMOD,"IaC/CM Modules")
-OFF_DOCUMENT(IACCMVAR,"Terraform Variables")
+OFF_DOCUMENT(IACCMVAR,"IaC/CM Variables")
 OFF_CENTRAL_MANAGEMENT_SERVICE(IACCM,"IaC/CM Engine")
 OFF_CENTRAL_MANAGEMENT_SERVICE(DHCP,"DHCP")
 OFF_CENTRAL_MANAGEMENT_SERVICE(DNS,"DNS")
@@ -14,11 +14,13 @@ OFF_APPLICATION_SERVER(SRV,"System")
 Admin -> IACCMVAR
 IACCMMOD -> IACCM
 IACCMVAR -do-> IACCM
-IACCM <-> IPAM : Get and reserve address
-IACCM -do-> DHCP : Configure DHCP
+IACCM <-> IPAM : Address Management
 DHCP <-do- SRV : get IP config
 DHCP -> DNS : update DDNS
-DHCP -up-> IPAM : update IPAM
-IACCM --do-> SRV : System Provisionig
+DHCP <-up-> IPAM : Integration - dynamic IPs
+DNS <--up-> IPAM : Integration - static IPs
+
+IACCM -do-> SRV : System Provisionig
+
 
 @enduml
