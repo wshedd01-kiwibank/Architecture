@@ -1,23 +1,36 @@
 @startuml
 actor Admin
-== Server Style Workload - Creation - Static Reservation ==
+== Workload - Static Reservation ==
 Admin -> "IaC/CM Config" : write workload config files
+"IaC/CM Config" -> "IaC/CM Engine" ++ : read config
 "IaC/CM Modules" -> "IaC/CM Engine" : use modules
-"IaC/CM Config" -> "IaC/CM Engine" : read config
-"IaC/CM Engine" -> IPAM : send hostname, desired network etc.
+"IaC/CM Engine" -> IPAM ++ : send hostname, desired network etc.
 IPAM -> IPAM : allocate addresses
 IPAM -> DHCP : send workload information
-IPAM -> DNS : configure any special records e.g. CNAME
-"IaC/CM Engine" -> Workload : create/configure - use DHCP
-Workload -> Workload : Startup
-DHCP <- Workload : Get IP config - static reservation
+IPAM -> DNS -- : configure any special records e.g. CNAME
+"IaC/CM Engine" -> Workload -- : create/configure - use DHCP
+Workload -> Workload ++ : Startup
+DHCP <- Workload --++ : Get IP config - static reservation
 DHCP -> DNS : create workload record
-DHCP -> IPAM : update workload record
+DHCP -> IPAM -- : update workload record
 
-== Laptop Type Workload - use pool address ==
-Workload -> Workload : Startup
-DHCP <- Workload : Get IP config - pool address
+== Workload - use pool address ==
+"IaC/CM Config" -> "IaC/CM Engine" ++ : read config
+"IaC/CM Modules" -> "IaC/CM Engine" : use modules
+"IaC/CM Engine" -> DNS : configure any special records e.g. CNAME
+"IaC/CM Engine" -> Workload -- : create/configure - use DHCP
+Workload -> Workload ++ : Startup
+DHCP <- Workload --++ : Get IP config - pool address
 DHCP -> DNS : create workload record
-DHCP -> IPAM : update workload record
+DHCP -> IPAM -- : update workload record
+
+== Workload - Shutdown / Decomm ==
+Workload -> Workload ++ : Shutdown
+Workload --> DHCP --
+DHCP -> DHCP ++: wait for expiry
+DHCP -> IPAM: update record
+DHCP -> DNS --++ : send expiry notification
+DNS -> DNS : remove records
+IPAM -> DNS --: remove special records
 
 @enduml
