@@ -1,0 +1,20 @@
+@startuml
+!global $ARCH_SPECIAL_SHAPES = %true()
+!include <archimate/Archimate>
+
+Business_Location(NZDC,"New Zealand Datacenters") {
+    Technology_Node(NZDCWINSVR,"Windows Server") {
+        Application_Component(WINCRWDSTR,"Crowdstrike EDR")
+    }
+    Technology_Node(NZDCLINSVR,"Linux Server") {
+        Application_Component(LINCRWDSTR,"Crowdstrike EDR")
+    }
+}
+Business_Location(AWS,"AWS Landing Zones") {
+        Technology_Node(AWSLINSVR,"Linux Server") {
+            Technology_Node(AWSK8CONT,"Kubernetes Container")
+        }
+
+}
+
+@enduml 
