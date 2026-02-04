@@ -1,18 +1,31 @@
 @startuml
 frame ENV {
     frame General {
-    queue subnet1
-    queue subnet2
-    queue subnet3
+    node BD1 {
+        queue subnet1
+        node Sec_EPG1
+        node IN_EPG1
+    }
+    node BD2 {
+        queue subnet2
+        node Sec_EPG2
+        node IN_EPG2
+    }
+    node BD3{
+        queue subnet3
+        node Sec_EPG3
+        node IN_EPG3
+    }
+    
     node General_VRF
-    note bottom of subnet1
+    note bottom of BD1
         A workload in the General area can reside on any subnet.
         EPG rules are the zonal enforcement - not subnet based 
         network ACLs.
     end note
-    General_VRF -do- subnet1
-    General_VRF -do- subnet2
-    General_VRF -do- subnet3
+    General_VRF -do- BD1
+    General_VRF -do- BD2
+    General_VRF -do- BD3
     }
 
     frame PCI-DSS {
