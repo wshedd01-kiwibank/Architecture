@@ -25,24 +25,32 @@ frame AWS {
 }
 
 frame NZDC {
-    rectangle "Extenal Switching" as extswt
+    rectangle "External Switching" as extswt
     rectangle "RADWare" as RADware
     rectangle "ASR" as NZDC_ASR
     OFF_FIREWALL(NZDC_RCN,"RCN Firewall")
     OFF_FIREWALL(NZDC_TZ,"TZ Firewall")
     OFF_FIREWALL(NZDC_GRE,"GRE 1800F")
     OFF_FIREWALL(NZDC_BANKNET,"Banket Firewall")
-    rectangle "TZ Switching" as tz_swt
     OFF_FIREWALL(NZDC_INT,"Internal Checkpoint")
+    OFF_FIREWALL(NZDC_EXT,"External Checkpoint")
+    rectangle "TZ Internal Switching" as NZDC_TZintswt
+    rectangle "ACI Fabric" as aci
 
     extswt - NZDC_GRE
     extswt -down- NZDC_ASR
     extswt --down- NZDC_TZ
     extswt --down- NZDC_RCN
     extswt --down- NZDC_BANKNET
-    NZDC_TZ --down- tz_swt
-    tz_swt -down- NZDC_INT
-    extswt-down- RADware
+    extswt -down- RADware
+    RADware - NZDC_GRE
+    NZDC_ASR - RADware
+    extswt -down-NZDC_EXT
+    NZDC_EXT ---down- aci
+    aci -down- NZDC_INT
+    NZDC_TZ -down- aci
+    NZDC_RCN -down- NZDC_TZintswt
+    NZDC_TZintswt -down- aci
 }
 
 redshield -down- redvxc : "VXC"
