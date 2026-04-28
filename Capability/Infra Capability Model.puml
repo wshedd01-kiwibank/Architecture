@@ -116,8 +116,25 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
             Technology_Node(INFOBLX,"Infoblox DNS")
             Technology_Service(NTP,"Microsoft NTP")
         }
+        Strategy_Capability(MOBNET,"Voice/4G/IoT") {
+            Technology_Service(Vocus4G,"Vocus 4G")
+            Technology_Service(Spark4G,"Spark 4G")
+        }
     }
-
+    Strategy_Capability(STORAGE,"Storage") {
+        Strategy_Capability(BLKSTOR,"Block Storage") {
+            Technology_Service(AWSEBS,"AWS EBS")
+            Technology_Node(PURESTOR,"Pure Storage X/C")
+        }
+        Strategy_Capability(NAS,"Network Attached") {
+            Technology_Service(DFS,"Windows DFS")
+        }
+        Strategy_Capability(2NDCPOIES,"Secondary Copues") {
+            Technology_Node(TAPELIB,"Dell Tape Library")
+            Technology_Node(HSX, "Commvault HSX")
+            Technology_Node(PURE2ND,"Pure Storage Tier 2")
+        }
+    }
 }
 
 @enduml

@@ -1,0 +1,50 @@
+@startuml
+!include <office/all>
+!include <tupadr3/common>
+
+
+title NZ Datacentre Perimeter
+
+cloud "Global Internet" {
+    cloud "Cello Internet"
+    cloud "Spark Internet"
+    cloud "2 Degrees Internet"    
+}
+
+cloud "Megaport" {
+    rectangle "MCR" as mcr
+}
+
+frame AWS {
+    rectangle "Sydney Transit Gateway" as sydtgw
+}
+
+frame NZDC {
+    rectangle "Extenal Switching" as extswt
+    rectangle "RADWare" as RADware
+    OFF_FIREWALL(NZDC_TZ,"TZ Firewall")
+    OFF_FIREWALL(NZDC_GRE,"GRE 1800F")
+    OFF_FIREWALL(NZDC_BANKNET,"Banket Firewall")
+    OFF_FIREWALL(NZDC_RCN,"RCN Firewall")
+    rectangle "TZ Switching" as tz_swt
+    OFF_FIREWALL(NZDC_INT,"Internal Checkpoint")
+
+    extswt -down- NZDC_GRE
+    extswt -down- NZDC_TZ
+    extswt -down- NZDC_RCN
+    extswt -down- NZDC_BANKNET
+    NZDC_TZ -down- tz_swt
+    tz_swt -down- NZDC_INT
+    RADware - extswt
+
+}
+
+mcr -down- extswt : "VXC"
+sydtgw -down- mcr : "DX"
+"Spark Internet" -down- extswt : "Internet"
+"Cello Internet" -down- extswt : "RCN Internet"
+"2 Degrees Internet" -down- extswt : "Internet"
+
+
+
+@enduml
