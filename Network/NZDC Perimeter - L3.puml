@@ -1,0 +1,69 @@
+@startuml
+!include <office/all>
+!include <tupadr3/common>
+
+
+title NZ Datacentre Perimeter - L3
+cloud "AKAMAI" {
+    rectangle "WAF" as akamaiwaf
+    rectangle "Prolexic" as prolexic
+}
+
+cloud "Global Internet" {
+    cloud "Cello Internet"
+    cloud "Spark Internet"
+    cloud "2 Degrees Internet"    
+}
+
+cloud "Megaport" {
+    rectangle "MCR" as mcr
+    rectangle "Redshield VXC" as redvxc
+}
+
+frame Redshield {
+    rectangle "Redshield WAF" as redshield
+}
+
+frame AWS {
+    rectangle "Sydney Transit Gateway" as sydtgw
+}
+
+frame NZDC {
+    rectangle "RADWare" as RADware
+    rectangle "ASR" as NZDC_ASR
+    OFF_FIREWALL(NZDC_RCN,"Cello Firewall")
+    OFF_FIREWALL(NZDC_TZ,"TZ Firewall")
+    OFF_FIREWALL(NZDC_GRE,"GRE 1800F")
+    OFF_FIREWALL(NZDC_BANKNET,"Banknet Firewall")
+    OFF_FIREWALL(NZDC_INT,"Internal Checkpoint")
+    OFF_FIREWALL(NZDC_EXT,"External Checkpoint")
+    rectangle "ACI Fabric" as aci
+
+    NZDC_ASR -down- NZDC_TZ
+    NZDC_TZ  -down- aci
+    RADware -> NZDC_GRE
+    NZDC_GRE -> RADware
+    NZDC_GRE -down- NZDC_TZ
+    NZDC_GRE -down- NZDC_BANKNET
+    NZDC_EXT -down-aci
+    NZDC_GRE --down- NZDC_EXT
+    NZDC_RCN --down- NZDC_TZ 
+    NZDC_BANKNET -down- NZDC_INT
+    NZDC_INT -down- aci
+
+}
+
+AKAMAI -down- "Global Internet"
+akamaiwaf -down- redshield
+sydtgw -down- mcr
+mcr -down- NZDC_ASR
+redshield -down- redvxc
+redvxc -down- NZDC_GRE
+prolexic .[#red]. NZDC_GRE : <color:red> GRE Tunnel
+
+"Cello Internet" -down- NZDC_RCN
+"Cello Internet" -down- NZDC_GRE
+"Spark Internet" -down- NZDC_GRE
+"2 Degrees Internet" -down- NZDC_GRE
+
+@enduml
