@@ -41,8 +41,8 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
             Technology_Service(Lambda,"AWS Lambda")
         }
         Strategy_Capability(Virtual,"Virtualization") {
-            Technology_SystemSoftware(VMware,"VMware")
-            Technology_SystemSoftware(POWERVM,"IBM PowerVM")
+            Technology_SystemSoftware(VMwareG,"VMware Guest")
+            Technology_SystemSoftware(POWERVM,"IBM PowerVM LPA")
             Technology_Service(EC2,"AWS EC2")
         }
         Strategy_Capability(Containers,"Containers") {
@@ -75,7 +75,7 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
             Technology_Service(AWSDX,"AWS DirectConnect")
             Technology_Service(AWSPL,"AWS PrivateLink")
             Technology_Service(BANKNET,"Banknet (Spark)")
-            Technology_Service(RCN,"Retail Network (Spark)")
+            Technology_Service(RCN,"Retail Network (Cello)")
         }
         Strategy_Capability(SDN,"Software Defined Networking") {
             Technology_Collaboration(ACI,"Cisco ACI")
@@ -88,6 +88,7 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
             Technology_CommunicationNetwork(SPRKINT,"Spark Internet")
             Technology_CommunicationNetwork(VOCUS,"Vocus Internet")
             Technology_CommunicationNetwork(SPRK4G,"Spark 4G")
+            Technology_CommunicationNetwork(CELLONET, "Cello Internet")
         }
         Strategy_Capability(NETSEC,"Network Security") {
             Technology_Node(CHKPT,"Checkpoint FW")
@@ -124,16 +125,51 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
     Strategy_Capability(STORAGE,"Storage") {
         Strategy_Capability(BLKSTOR,"Block Storage") {
             Technology_Service(AWSEBS,"AWS EBS")
-            Technology_Node(PURESTOR,"Pure Storage X/C")
+            Technology_Node(PURESTOR,"Pure Storage X")
         }
         Strategy_Capability(NAS,"Network Attached") {
             Technology_Service(DFS,"Windows DFS")
         }
-        Strategy_Capability(2NDCPOIES,"Secondary Copues") {
+        Strategy_Capability(2NDCPOIES,"Secondary Copies") {
             Technology_Node(TAPELIB,"Dell Tape Library")
             Technology_Node(HSX, "Commvault HSX")
-            Technology_Node(PURE2ND,"Pure Storage Tier 2")
+            Technology_Node(PURE2ND,"Pure Storage C (Tier 2)")
         }
+        Strategy_Capability(ARCHIVE,"Archive") {
+        }
+        Strategy_Capability(STORMGMT,"Storage Management") {
+            Technology_Node(DCNM,"Cisco DCNM")
+            Technology_Node(PURE1,"EvcerPure Pure1 (SaaS)")
+        }
+        Strategy_Capability(OBJSTOR,"Object Storage") {
+            Technology_Service(AWSS3,"AWS S3")
+            Technology_Service(AzureBlob,"Azure Blob Storage")
+        }
+    }
+    Strategy_Capability(SYSSOFT,"System Software") {
+        Strategy_Capability(OS,"Operating Systems") {
+            Technology_SystemSoftware(RHLINUX,"RedHat Linux")
+            Technology_SystemSoftware(WINDOWS,"Windows Server")
+            Technology_SystemSoftware(AIX,"IBM AIX")
+            Technology_SystemSoftware(POWERVM,"IBM PowerVM")
+            Technology_SystemSoftware(VMWAREESXI,"VMware ESXi")
+        }
+        Strategy_Capability(DATABASES, "Databases") {
+            Technology_SystemSoftware(ORACLE,"Oracle DB")
+            Technology_SystemSoftware(MSSQL,"Microsoft SQL Server")
+            Technology_SystemSoftware(RDS_POSTGRES,"RDS PostgreSQL")
+            Technology_SystemSoftware(SNOWFLAKE, "Snowflake")
+            }
+        }
+        Strategy_Capability(SYSDEPLOY,"Deployment Services") {
+                Technology_Service(NIM,"IBM NIM")
+                Technology_Service(MECM,"MS MECM")
+                Technology_Service(RHSATELLITE,"RedHat Satellite")
+                Technology_Service(TFC,"Hashicorp Terraform")
+                Technology_Service(AWSECR,"AWS ECR")
+                Technology_Service(RHAAP,"RedHat Ansible Automation Platform")
+        }
+
     }
 }
 
