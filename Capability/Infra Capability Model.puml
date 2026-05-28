@@ -60,6 +60,7 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
         }
     }
 
+
     Strategy_Capability(Network,"Network") {
         Strategy_Capability(Switching,"Switching") {
             Technology_Device(NEXUS,"Cisco Nexus")
@@ -169,8 +170,36 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
                 Technology_Service(AWSECR,"AWS ECR")
                 Technology_Service(RHAAP,"RedHat Ansible Automation Platform")
         }
-
     }
+    Strategy_Capability(SECURITY,"Security") {
+            Strategy_Capability(ENDPOINT,"Endpoint Security") {
+                Technology_SystemSoftware(CROWDSTRIKE,"Crowdstrike Falcon")
+                Technology_SystemSoftware(TRENDMICRO,"Trend Micro")
+            }
+            Strategy_Capability(VULNMGMT,"Vulnerability Management") {
+                Technology_Node(AWSINSPECTOR,"AWS Inspector")
+                Technology_Node(QUALYS,"Qualys VM")
+            }
+            Strategy_Capability(IDENTITY,"Identity and Access Management") {
+                Technology_Service(AZRAAD,"Azure Active Directory")
+                Technology_Service(AWSIAM,"AWS IAM")
+                Technology_Service(FORGEROCK,"Forgerock")
+                Technology_SystemSoftware(MSAD,"Microsoft Active Directory")
+                Technology_SystemSoftware(RHIAM,"RedHat Identity Manager")
+                Technology_Service(ZSCALER,"zScaler")
+                Technology_Service(MSDEFENDERCASB,"Microsoft Defender for Cloud Apps")
+                Technology_Service(MSMIM,"Microsoft Identity Manager")
+                Technology_SystemSoftware(UNIFY,"Unify IAM Brokers")
+                Technology_Service(CORNERSTONE,"Cornerstone OnDemand")
+            }
+            Strategy_Capability(DOMAINSEC,"Domains and Certificates") {
+                Technology_Service(DKIM,"DKIM")
+                Technology_Service(DMARC,"DMARC")
+                Technology_Service(DPML,"DPML")
+                Technology_Service(SPF,"SPF")   
+                Technology_Service(VCMBIMI,"VMC / BIMI")
+            }
+            
 }
 
 @enduml
