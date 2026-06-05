@@ -29,7 +29,6 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
             Application_Service(REDSHIELD,"RedShield")
         }
     }
-
     Strategy_Capability(Compute,"Compute") {
         Strategy_Capability(NonX86,"Non X86") {
             Technology_Device(IBMP,"IBM P Series")
@@ -42,7 +41,7 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
         }
         Strategy_Capability(Virtual,"Virtualization") {
             Technology_SystemSoftware(VMwareG,"VMware Guest")
-            Technology_SystemSoftware(POWERVM,"IBM PowerVM LPA")
+            Technology_SystemSoftware(POWERVM,"IBM PowerVM LPAR")
             Technology_Service(EC2,"AWS EC2")
         }
         Strategy_Capability(Containers,"Containers") {
@@ -59,8 +58,6 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
 
         }
     }
-
-
     Strategy_Capability(Network,"Network") {
         Strategy_Capability(Switching,"Switching") {
             Technology_Device(NEXUS,"Cisco Nexus")
@@ -161,45 +158,102 @@ Strategy_Capability(Infrastructure,"Infrastructure") {
             Technology_SystemSoftware(RDS_POSTGRES,"RDS PostgreSQL")
             Technology_SystemSoftware(SNOWFLAKE, "Snowflake")
             }
-        }
         Strategy_Capability(SYSDEPLOY,"Deployment Services") {
-                Technology_Service(NIM,"IBM NIM")
-                Technology_Service(MECM,"MS MECM")
-                Technology_Service(RHSATELLITE,"RedHat Satellite")
-                Technology_Service(TFC,"Hashicorp Terraform")
-                Technology_Service(AWSECR,"AWS ECR")
-                Technology_Service(RHAAP,"RedHat Ansible Automation Platform")
+            Technology_Service(NIM,"IBM NIM")
+            Technology_Service(MECM,"MS MECM")
+            Technology_Service(RHSATELLITE,"RedHat Satellite")
+            Technology_Service(TFC,"Hashicorp Terraform")
+            Technology_Service(AWSECR,"AWS ECR")
+            Technology_Service(RHAAP,"RedHat Ansible Automation Platform")
         }
     }
     Strategy_Capability(SECURITY,"Security") {
-            Strategy_Capability(ENDPOINT,"Endpoint Security") {
-                Technology_SystemSoftware(CROWDSTRIKE,"Crowdstrike Falcon")
-                Technology_SystemSoftware(TRENDMICRO,"Trend Micro")
-            }
-            Strategy_Capability(VULNMGMT,"Vulnerability Management") {
-                Technology_Node(AWSINSPECTOR,"AWS Inspector")
-                Technology_Node(QUALYS,"Qualys VM")
-            }
-            Strategy_Capability(IDENTITY,"Identity and Access Management") {
-                Technology_Service(AZRAAD,"Azure Active Directory")
-                Technology_Service(AWSIAM,"AWS IAM")
-                Technology_Service(FORGEROCK,"Forgerock")
-                Technology_SystemSoftware(MSAD,"Microsoft Active Directory")
-                Technology_SystemSoftware(RHIAM,"RedHat Identity Manager")
-                Technology_Service(ZSCALER,"zScaler")
-                Technology_Service(MSDEFENDERCASB,"Microsoft Defender for Cloud Apps")
-                Technology_Service(MSMIM,"Microsoft Identity Manager")
-                Technology_SystemSoftware(UNIFY,"Unify IAM Brokers")
-                Technology_Service(CORNERSTONE,"Cornerstone OnDemand")
-            }
-            Strategy_Capability(DOMAINSEC,"Domains and Certificates") {
-                Technology_Service(DKIM,"DKIM")
-                Technology_Service(DMARC,"DMARC")
-                Technology_Service(DPML,"DPML")
-                Technology_Service(SPF,"SPF")   
-                Technology_Service(VCMBIMI,"VMC / BIMI")
-            }
-            
+        Strategy_Capability(ENDPOINT,"Endpoint Security") {
+            Technology_SystemSoftware(CROWDSTRIKE,"Crowdstrike Falcon")
+            Technology_SystemSoftware(TRENDMICRO,"Trend Micro")
+        }   
+        Strategy_Capability(VULNMGMT,"Vulnerability Management") {
+            Technology_Node(AWSINSPECTOR,"AWS Inspector")
+            Technology_Node(QUALYS,"Qualys VM")
+        }
+        Strategy_Capability(IDENTITY,"Identity and Access Management") {
+            Technology_Service(AZRAAD,"Azure Active Directory")
+            Technology_Service(AWSIAM,"AWS IAM")
+            Technology_Service(FORGEROCK,"Forgerock")
+            Technology_SystemSoftware(MSAD,"Microsoft Active Directory")
+            Technology_SystemSoftware(RHIAM,"RedHat Identity Manager")
+            Technology_Service(ZSCALER,"zScaler")
+            Technology_Service(MSDEFENDERCASB,"Microsoft Defender for Cloud Apps")
+            Technology_Service(MSMIM,"Microsoft Identity Manager")
+            Technology_SystemSoftware(UNIFY,"Unify IAM Brokers")
+            Technology_Service(CORNERSTONE,"Cornerstone OnDemand")
+        }
+        Strategy_Capability(DOMAINSEC,"Domains") {
+            Technology_Service(DKIM,"DKIM")
+            Technology_Service(DMARC,"DMARC")
+            Technology_Service(DPML,"DPML")
+            Technology_Service(SPF,"SPF")   
+            Technology_Service(VCMBIMI,"VMC / BIMI")
+        }
+        Strategy_Capability(ENCRYPTION,"Certs and Encryption") {
+            Technology_Service(AWSKMS,"AWS KMS")
+            Technology_Service(MSPKI,"Microsoft PKI")
+            Technology_Service(AWSACM,"AWS ACM")
+            Technology_Node(THALES,"Thales HSM")
+            Technology_Node(PKILaptop,"Internal PKI Laptop + USB HSM")
+            Technology_Service(DIGICERT,"DigiCert")
+            Technology_Service(HSM,"Hardware Security Module")
+        }
+        Strategy_Capability(SECRETS,"Secrets Management") {
+            Technology_Service(AWSSM,"AWS Secrets Manager")
+            Technology_Service(AZRKEYVAULT,"Azure KeyVault")
+        }
+        Strategy_Capability(SECOPS,"Security Operations") {
+            Technology_Node(SIEM,"Splunk SIEM")
+            Technology_Service(NEURONS,"Ivanti Neurons")
+            Technology_Service(DARKWEB,"Dark Shadows")
+        }
+        Strategy_Capability(SECCODE,"Code Security") {
+            Technology_Service(GITHUBAS,"GitHub Advanced Security")
+        }
+        Strategy_Capability(SECDLP,"Data Loss Prevention") {
+            Technology_Service(MSAIP,"Microsoft AIP")
+            Technology_Service(QUASAR,"Quasar Scan")
+        }
+    Strategy_Capability(Compliance,"Compliance") {
+        Strategy_Capability(COMPLYDETECT,"Compliance Detection") {
+            Technology_Service(CONFORMITY,"Trend Cloud Conformity")
+            Technology_Service(QUASAR,"Quasar Scan")                
+        }
+        Strategy_Capability(COMPLYENFORCE,"Compliance Enforcement") {
+            Technology_Service(AZSPOLICY,"Azure Policy")
+            Technology_Service(AWSCONTROLTOWER,"AWS Control Tower") 
+            Technology_Service(HASHISENTINEL,"Hashicorp Sentinel")
+            Technology_Service(AWSSCP,"AWS Service Control Policies")
+        }
+    }
+    Strategy_Capability(LOGGING,"Logging") {
+        Technology_Service(AWSCLOUDTRAIL,"AWS Cloudtrail")
+        Technology_Service(SUMOLOGIC,"Sumologic")
+        Technology_Node(KIWISYSLOG,"Kiwi Syslog Server")    
+    } 
+    Strategy_Capability(MONITORING,"Monitoring") {
+        Technology_Service(CLOUDWATCH,"AWS CloudWatch")
+        Technology_Service(SOLARWINDS,"Solarwinds NPM")
+        Technology_Service(DYNATRACE,"Dynatrace")
+    }
+    Strategy_Capability(ASSETMGMT,"Asset Management") {
+        Technology_Node(SNOWCMDB,"ServiceNow CMDB")
+        Technology_Node(NETBOX,"Netbox")
+    }
+    Strategy_Capability(IAC,"Infrastructure as Code") {
+        Technology_Service(RHAAP,"RedHat Ansible Automation Platform")
+        Technology_Service(TFC,"Hashicorp Terraform")
+    }
+    Strategy_Capability(RECOVERY,"Recovery") {
+        Technology_Service(COMMVAULT,"Commvault")
+        Technology_Service(AWSBACKUP,"AWS Backup")
+    }
 }
 
 @enduml
