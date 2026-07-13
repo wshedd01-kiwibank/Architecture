@@ -1,0 +1,84 @@
+@startuml
+!include <office/all>
+!include <tupadr3/common>
+
+
+title "WAN - Reimagined"
+
+
+cloud "Global Internet" {
+    cloud "Cello Internet"
+    cloud "Spark Internet"
+    cloud "2 Degrees Internet"
+    cloud "AKAMAI" {
+        rectangle "WAF" as akamaiwaf
+        rectangle "Prolexic" as prolexic
+    }    
+}
+
+cloud "Private WAN"
+
+cloud "Banknet" {
+    rectangle "Banknet" as banknet
+}
+
+cloud "Retail" {
+    rectangle "Retail" as retail
+}
+
+frame AWS_SYD {
+    rectangle "Sydney Transit Gateway" as sydtgw
+}
+
+frame AWS_AKL {
+    rectangle "AWS Auckland Transit Gateway" as akltgw
+}
+
+frame AZR_SYD {
+    rectangle "Azure Sydney Transit Gateway" as azrsydtgw
+} 
+
+frame AZR_AKL {
+    rectangle "Azure Auckland Transit Gateway" as azrakltgw
+}
+
+frame Orbit {
+    OFF_FIREWALL(ORB_RCN,"Retail Firewall")
+    OFF_FIREWALL(ORB_TZ,"TZ Firewall")
+    OFF_FIREWALL(ORB_BANKNET,"Banknet Firewall")
+    OFF_ROUTER(ORB_WANRTR,"WAN Router")   
+}
+frame Kapua {
+    OFF_ROUTER(KAP_WANRTR,"WAN Router")
+}
+
+frame Abel {
+    OFF_FIREWALL(ABL_RCN,"Retail Firewall")
+    OFF_FIREWALL(ABL_TZ,"TZ Firewall")
+    OFF_FIREWALL(ABL_BANKNET,"Banknet Firewall")
+    OFF_ROUTER(ABL_WANRTR,"WAN Router")
+}
+
+ "Cello Internet" -down- ORB_RCN
+ "Spark Internet" -down- ORB_TZ
+ "Spark Internet" -down- ORB_BANKNET
+ "2 Degrees Internet" -down- ORB_TZ
+
+ "Cello Internet" -down- ABL_RCN
+ "Spark Internet" -down- ABL_TZ
+ "Spark Internet" -down- ABL_BANKNET
+ "2 Degrees Internet" -down- ABL_TZ
+
+ "Private WAN" -down- ORB_WANRTR
+ "Private WAN" -down- KAP_WANRTR
+ "Private WAN" -down- ABL_WANRTR
+
+"Private WAN" -up- sydtgw : "DX"
+"Private WAN" -up- akltgw : "DX"
+"Private WAN" -up- azrsydtgw : "ER"
+"Private WAN" -up- azrakltgw : "ER"
+
+retail -down- "Cello Internet"
+banknet-down- "Spark Internet"
+
+@enduml
