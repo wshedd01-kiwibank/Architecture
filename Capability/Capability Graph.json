@@ -1,0 +1,136 @@
+{
+    "Infrastructure" : {
+        "App Delivery" : {
+            "API Gateway" : {
+                "APIgee" : {
+                    "vendor" : "Google",
+                    "platform" : "GCP"
+                },
+                "API-M" : {
+                    "vendor" : "Microsoft",
+                    "platform" : "Azure and AWS "
+                },  
+            },
+            "CDN" : {
+                "Akamai" : {
+                    "vendor" : "Akamai",
+                    "platform" : "Akamai"
+                },
+                "CloudFront" : {
+                    "vendor" : "Amazon",
+                    "platform" : "AWS"
+                },
+            },
+            "Eventing" : {
+                "Kafka" : {
+                    "vendor" : "Confluent",
+                    "platform" : "Confluent Cloud"
+                },
+            },
+            "Load Balancer" : {
+                "F5" : {
+                    "vendor" : "F5",
+                    "platform" : "NZ DC"
+                },
+                "AWS ALB" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud"
+                },
+                "AWS ELB" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud"
+                },
+            },
+            "Service Mesh" : {
+                "Istio" : {
+                    "vendor" : "Istio",
+                    "platform" : "CIP"
+                },
+            },
+            "WAF" : {
+                "AWS WAF" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud"
+                },
+                "Akamai WAF" : {
+                    "vendor" : "Akamai",
+                    "platform" : "Akamai CDN"
+                },
+                "RedShield WAF" : {
+                    "vendor" : "RedShield",
+                    "platform" : "Cloud"
+                },
+            },
+        },
+        "Compute" : {
+            "Serverless" : {
+                "AWS Lambda" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud"
+                },    
+            },
+            "VMs" : {
+                "AWS EC2" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud"
+                },
+                "Azure VMs" : {
+                    "vendor" : "Microsoft",
+                    "platform" : "Cloud"
+                },
+                "VMware" : {
+                    "vendor" : "VMware",
+                    "platform" : "NZ DC"
+                },
+                "PowerVM" : {
+                    "vendor" : "IBM",
+                    "platform" : "NZ DC"
+                },
+            },
+            "Non-X86" : {
+                "IBM Power" : {
+                    "vendor" : "IBM",
+                    "platform" : "NZ DC"
+                },
+            }
+            "X86" : {
+                "UCS" : {
+                    "vendor" : "Cisco",
+                    "platform" : "NZ DC"
+                },
+            },
+            "Containers" : {
+                "AWS EKS" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud"
+                },
+                "Podman" : {
+                    "vendor" : "FOSS",
+                    "platform" : "NZ DC"
+                },
+            },
+            "Compute Management" : {
+                "VMware vSphere" : {
+                    "vendor" : "VMware",
+                    "platform" : "NZ DC"
+                },
+                "IBM Power HMC" : {
+                    "vendor" : "IBM",
+                    "platform" : "NZ DC"
+                },
+                "UCS Manager" : {
+                    "vendor" : "Cisco",
+                    "platform" : "NZ DC"
+                },
+                "Intersight" : {
+                    "vendor" : "Cisco",
+                    "platform" : "Cloud"
+                },
+                "Netbox" : {
+                    "vendor" : "FOSS",
+                    "platform" : "NZ DC"
+                },
+            }
+        },
+    },
+}
