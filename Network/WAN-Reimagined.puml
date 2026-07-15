@@ -62,12 +62,11 @@ frame Abel {
  "Cello Internet" -down- ORB_RCN
  "Spark Internet" -down- ORB_TZ
  "Spark Internet" -down- ORB_BANKNET
- "2 Degrees Internet" -down- ORB_TZ
 
  "Cello Internet" -down- ABL_RCN
- "Spark Internet" -down- ABL_TZ
- "Spark Internet" -down- ABL_BANKNET
  "2 Degrees Internet" -down- ABL_TZ
+ "2 Degrees Internet" -down- ABL_BANKNET
+
 
  "Private WAN" -down- ORB_WANRTR
  "Private WAN" -down- KAP_WANRTR
@@ -79,6 +78,6 @@ frame Abel {
 "Private WAN" -up- azrakltgw : "ER"
 
 retail -down- "Cello Internet"
-banknet-down- "Spark Internet"
+banknet -down- "Spark Internet"
 
 @enduml
