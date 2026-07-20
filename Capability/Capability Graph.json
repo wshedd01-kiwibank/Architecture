@@ -9,6 +9,7 @@
                 "API-M" : {
                     "vendor" : "Microsoft",
                     "platform" : "Azure and AWS "
+                    "regions" : ["ap-southeast-2"]
                 },  
             },
             "CDN" : {
@@ -25,6 +26,7 @@
                 "Kafka" : {
                     "vendor" : "Confluent",
                     "platform" : "Confluent Cloud"
+                    "regions" : ["ap-southeast-2"]
                 },
             },
             "Load Balancer" : {
@@ -35,22 +37,26 @@
                 "AWS ALB" : {
                     "vendor" : "AWS",
                     "platform" : "Cloud"
+                    "regions" : ["ap-southeast-2"]
                 },
                 "AWS ELB" : {
                     "vendor" : "AWS",
                     "platform" : "Cloud"
+                    "regions" : ["ap-southeast-2"]
                 },
             },
             "Service Mesh" : {
                 "Istio" : {
-                    "vendor" : "Istio",
-                    "platform" : "CIP"
+                    "vendor" : "FOSS",
+                    "platform" : "Cloud"
+                    "regions" : ["ap-southeast-2"]
                 },
             },
             "WAF" : {
                 "AWS WAF" : {
                     "vendor" : "AWS",
                     "platform" : "Cloud"
+                    "regions" : ["ap-southeast-2"]
                 },
                 "Akamai WAF" : {
                     "vendor" : "Akamai",
@@ -59,6 +65,7 @@
                 "RedShield WAF" : {
                     "vendor" : "RedShield",
                     "platform" : "Cloud"
+                    "regions" : ["ap-southeast-2" , "NZ DC"]
                 },
             },
         },
@@ -67,16 +74,19 @@
                 "AWS Lambda" : {
                     "vendor" : "AWS",
                     "platform" : "Cloud"
+                    "regions" : ["ap-southeast-2"]
                 },    
             },
             "VMs" : {
                 "AWS EC2" : {
                     "vendor" : "AWS",
                     "platform" : "Cloud"
+                    "regions" : ["ap-southeast-2"]
                 },
                 "Azure VMs" : {
                     "vendor" : "Microsoft",
                     "platform" : "Cloud"
+                    "regions" : ["Australia East"]
                 },
                 "VMware" : {
                     "vendor" : "VMware",
@@ -103,6 +113,7 @@
                 "AWS EKS" : {
                     "vendor" : "AWS",
                     "platform" : "Cloud"
+                    "regions" : ["ap-southeast-2"]
                 },
                 "Podman" : {
                     "vendor" : "FOSS",
@@ -125,6 +136,7 @@
                 "Intersight" : {
                     "vendor" : "Cisco",
                     "platform" : "Cloud"
+                    "regions" : ["us-west" ]
                 },
                 "Netbox" : {
                     "vendor" : "FOSS",
@@ -132,5 +144,159 @@
                 },
             }
         },
+        "Network" : {
+            "WAN" : {
+                "Megaport" : {
+                    "vendor" : "Megaport",
+                    "platform" : "NZ DC / Cloud"
+                },
+                "Spark MPLS" : {
+                    "vendor" : "Spark",
+                    "platform" : "NZ DC"
+                },
+                "AWS DirectConnect" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud"
+                    "regions" : ["ap-southeast-2"]
+                },
+                "Azure ExpressRoute" : {
+                    "vendor" : "Microsoft",
+                    "platform" : "Cloud"
+                    "regions" : ["Australia East"]
+                },
+                "AWS PrivateLink" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud"
+                    "regions" : ["ap-southeast-2"]
+                }, 
+            },
+            "LAN Switching" : {
+                "Cisco Nexus" : {
+                    "vendor" : "Cisco",
+                    "platform" : "NZ DC"
+                },
+                "Cisco Catalyst" : {
+                    "vendor" : "Cisco",
+                    "platform" : "Corporate Offices"
+                },
+                "Meraki" : {
+                    "vendor" : "Cisco",
+                    "platform" : "Retail"
+                },
+            "SD-WAN" : {
+                "Meraki SD_WAN" : {
+                    "vendor" : "Cisco",
+                    "platform" : "Retail"
+                },
+                "Fortinet SD-WAN" : {
+                    "vendor" : "Fortinet",
+                    "platform" : "Corporate Offices"
+                },
+                "Checkpoint VPN" : {
+                    "vendor" : "Checkpoint",
+                    "platform" : "NZ DC and Cloud"
+                },
+            },
+            "Routing" : {
+                "Cisco ASR" : {
+                    "vendor" : "Cisco",
+                    "platform" : "NZ DC"
+                },
+                "AWS Transit Gateway" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud",
+                    "regions" : ["ap-southeast-2"]
+                },
+                "Megaport Cloud Router" : {
+                    "vendor" : "Megaport",
+                    "platform" : "Megaport",
+                    "regions" : ["Auckland", "Sydney", "Melbourne"]
+                },
+                "Cisco ISR" : {
+                    "vendor" : "Cisco",
+                    "platform" : "NZ DC"
+                },
+                "Cisco VRF" : {
+                    "vendor" : "Cisco",
+                    "platform" : "NZ DC"
+                },
+            },
+            "Internet" : {
+                "Spark Business Broadband" : {
+                    "vendor" : "Spark",
+                    "platform" : "CloudSpark",
+                    "regions" : ["Abel Smith"]
+                },
+                "2 Degrees Internet" : {
+                    "vendor" : "2 Degrees",
+                    "platform" : "2 Degrees",
+                    "regions" : ["Orbit","Kapua"]
+                },
+                "Cello Internet" : {
+                    "vendor" : "Cello",
+                    "platform" : "Cello",
+                    "regions" : ["Orbit", "Abel", "Retail Sites"]
+                },
+            },
+            "Network Management" : {
+                "Cisco APIC" : {
+                    "vendor" : "Cisco",
+                    "platform" : "NZ DC"
+                },
+                "Solarwinds" : {
+                    "vendor" : "Solarwinds",
+                    "platform" : "NZ DC"
+                },
+                "Fortinet FortiManager" : {
+                    "vendor" : "Fortinet",
+                    "platform" : "Cloud"
+                },
+            },
+            "Network Security" : {
+                "Fortinet FortiGate" : {
+                    "vendor" : "Fortinet",
+                    "platform" : "NZ DC",
+                    "regions" : ["Abel","Orbit","Kapua","Corporate Offices","Retail Sites"]
+                },
+                "Checkpoint" : {
+                    "vendor" : "Checkpoint",
+                    "platform" : "NZ DC",
+                    "regions" : [ "Abel","Orbit","Kapua"]]
+                },
+                "Checkpoint CLoudguard" : {
+                    "vendor" : "Checkpoint",
+                    "platform" : "Cloud",
+                },
+                "Illumio" : {
+                    "vendor" : "Illumio",
+                    "platform" : "NZ DC",
+                    "regions" : ["Abel","Orbit","Kapua"]
+                },
+                "RADware DefensePro" : {
+                    "vendor" : "RADware",
+                    "platform" : "NZ DC",
+                    "regions" : ["Abel","Orbit","Kapua"]
+                },
+                "Akamai Prolexic" : {
+                    "vendor" : "Akamai",
+                    "platform" : "Cloud"
+                },
+                "AWS Shield and Advanced" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud",
+                    "regions" : ["ap-southeast-2"]
+                },
+                "AWS Firewall Manager" : {
+                    "vendor" : "AWS",
+                    "platform" : "Cloud",
+                    "regions" : ["ap-southeast-2"]
+                },
+                "Azure Firewall" : {
+                    "vendor" : "Microsoft",
+                    "platform" : "Cloud",
+                    "regions" : ["Australia East"]
+                },
+        },
+    
     },
 }
