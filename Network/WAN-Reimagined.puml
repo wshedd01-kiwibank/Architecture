@@ -9,7 +9,7 @@ title "WAN - Reimagined"
 cloud "Global Internet" {
     cloud "Cello Internet"
     cloud "Spark Internet"
-    cloud "2 Degrees Internet"
+    cloud "?? Internet"
     cloud "AKAMAI" {
         rectangle "WAF" as akamaiwaf
         rectangle "Prolexic" as prolexic
@@ -28,10 +28,14 @@ cloud "Retail" {
 
 frame AWS_SYD {
     rectangle "Sydney Transit Gateway" as sydtgw
+    rectangle "AWS SYD Fortigate" as sydfortigate
+    sydtgw - sydfortigate
 }
 
 frame AWS_AKL {
     rectangle "AWS Auckland Transit Gateway" as akltgw
+    rectangle "AWS AKL Fortigate" as aklfortigate
+    akltgw - aklfortigate
 }
 
 frame AZR_SYD {
@@ -46,6 +50,7 @@ frame Orbit {
     OFF_FIREWALL(ORB_RCN,"Retail Firewall")
     OFF_FIREWALL(ORB_TZ,"TZ Firewall")
     OFF_FIREWALL(ORB_BANKNET,"Banknet Firewall")
+    OFF_FIREWALL(ORB_INT,"Internal Firewall")
     OFF_ROUTER(ORB_WANRTR,"WAN Router")   
 }
 frame Kapua {
@@ -56,28 +61,49 @@ frame Abel {
     OFF_FIREWALL(ABL_RCN,"Retail Firewall")
     OFF_FIREWALL(ABL_TZ,"TZ Firewall")
     OFF_FIREWALL(ABL_BANKNET,"Banknet Firewall")
+    OFF_FIREWALL(ABL_INT,"Internal Firewall")
     OFF_ROUTER(ABL_WANRTR,"WAN Router")
 }
 
- "Cello Internet" -down- ORB_RCN
- "Spark Internet" -down- ORB_TZ
- "Spark Internet" -down- ORB_BANKNET
+"?? Internet" --down[#blue]- ORB_TZ
+"?? Internet" --down[#blue]- ABL_TZ
+ 
+"Spark Internet" --down[#770077]- ORB_BANKNET
+"Spark Internet" --down[#770077]- ABL_BANKNET
 
- "Cello Internet" -down- ABL_RCN
- "2 Degrees Internet" -down- ABL_TZ
- "2 Degrees Internet" -down- ABL_BANKNET
+ "Cello Internet" -down[#00FF00]- ABL_RCN
+ "Cello Internet" -down[#00FF00]- ORB_RCN
 
+ "Private WAN" -down[#green]- ORB_WANRTR
+ "Private WAN" -down[#green]- KAP_WANRTR
+ "Private WAN" -down[#green]- ABL_WANRTR
 
- "Private WAN" -down- ORB_WANRTR
- "Private WAN" -down- KAP_WANRTR
- "Private WAN" -down- ABL_WANRTR
+ORB_WANRTR -down- ORB_TZ
+ABL_WANRTR -down- ABL_TZ
 
-"Private WAN" -up- sydtgw : "DX"
-"Private WAN" -up- akltgw : "DX"
-"Private WAN" -up- azrsydtgw : "ER"
-"Private WAN" -up- azrakltgw : "ER"
+ORB_BANKNET -down- ORB_TZ
+ABL_BANKNET -down- ABL_TZ
 
-retail -down- "Cello Internet"
-banknet -down- "Spark Internet"
+ORB_RCN -down- ORB_INT
+ABL_RCN -down- ABL_INT
+
+ABL_TZ -down- ABL_INT
+ORB_TZ -down- ORB_INT   
+
+"Private WAN" -up[#green]- akltgw : "DX"
+"Private WAN" --up[#green]- azrakltgw : "ER"
+
+akltgw -[#orange] sydtgw : <color:orange>TGW Peering</color>
+
+retail -down[#00FF00]- "Cello Internet"
+banknet -down[#770077]- "Spark Internet"
+
+aklfortigate -down- "Global Internet"
+sydfortigate -down- "Global Internet"
+
+prolexic .down[#red].> ORB_TZ : <color:red>GRE</color>
+prolexic .down[#red].> ABL_TZ : <color:red>GRE</color>
+prolexic .up[#red].> aklfortigate : <color:red>GRE</color>
+prolexic .up[#red].> sydfortigate : <color:red>GRE</color>
 
 @enduml
