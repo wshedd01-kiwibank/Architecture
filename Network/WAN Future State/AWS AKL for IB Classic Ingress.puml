@@ -1,0 +1,82 @@
+@startuml
+!include <awslib/all>
+!include <azure/all>
+!include <kubernetes/k8s-sprites-unlabeled-25pct>
+!include <office/all>
+!include <tupadr3/common>
+
+actor customer
+Mobileclient(phone,mobile,MOBILE)
+Client(browser,browser,browser)
+WAF(AKA_WAF,Akamai,WAF)
+
+
+    frame "AWS CloudFront" {
+        CloudFront(SPA_CF,"CloudFront",SPA)
+        CloudFront(API_CF,"CloudFront",API)
+    }
+
+    frame "KB AWS Sydney LZ" {
+        SimpleStorageService(MDB_SPA_S3,"SPA Hosting Bucket",S3)
+        ElasticLoadBalancingApplicationLoadBalancer(SYD_ALB,ALB,SYD)
+        WAF(SYD_ALB_WAF,AWS,WAF)
+        frame "CIP" {
+            component "<$svc>\n\nistio" as istio
+            component "<$pod>\n\nservice pod" as mservice
+            AzureAPIManagement(APIM_D,"API GW","APIM")
+        }
+    }
+    frame "KB AWS Auckland LZ" {
+        ElasticLoadBalancingApplicationLoadBalancer(AKL_ALB,ALB,AKL)
+        WAF(AKL_ALB_WAF,AWS,WAF)
+    }
+
+frame "NZ DC" {
+    ElasticLoadBalancingApplicationLoadBalancer(F5,F5,NZDC)
+    frame "IB" {
+        OFF_APPLICATION_SERVER(IBs,"IB Servers")
+    }
+    frame "Middleware" {
+        OFF_APPLICATION_SERVER(MWs,"Middleware Servers")
+    }
+}
+
+
+customer -do-> browser
+browser -do-> AKA_WAF : **Classic and MDB - Web and API**
+browser -do-> SPA_CF : **SPA download**
+F5 -do-> IBs
+IBs-up-> F5
+F5 -do-> MWs
+
+
+customer -do-> phone
+phone -do-> SPA_CF : **SPA download**
+SPA_CF -do-> MDB_SPA_S3
+
+phone -do-> AKA_WAF : **MDB API**
+AKA_WAF -do-> API_CF : **MDB API**
+AKA_WAF -do-> F5 : **Classic API via Prolexic**
+API_CF -do-> SYD_ALB_WAF : **API**
+API_CF -do-> AKL_ALB_WAF : **API**
+SYD_ALB_WAF -do-> SYD_ALB : **API**
+AKL_ALB_WAF -do-> AKL_ALB : **API**
+SYD_ALB -do-> istio : **MDB**
+AKL_ALB -do-> istio : **MDB**
+SYD_ALB -do-> F5 : **Classic**
+AKL_ALB -do-> F5 : **Classic**
+istio -do-> APIM_D
+APIM_D -up-> istio
+istio -do-> mservice
+
+
+mservice -> F5 : **Classic**
+note bottom of mservice 
+    Some services currently call NZ DC services via public path
+    e.g. calling MAS. This egresses AWs and ingress KB via Akamai as
+    depicted in this diagram.
+    Security backlog item to change these calls to use private network
+    path as specified heron this diagram.
+end note
+
+@enduml

@@ -106,4 +106,6 @@ prolexic .down[#red].> ABL_TZ : <color:red>GRE</color>
 prolexic .up[#red].> aklfortigate : <color:red>GRE</color>
 prolexic .up[#red].> sydfortigate : <color:red>GRE</color>
 
+azrakltgw -[#007777] azrsydtgw : <color:#007777>Peering</color>
+
 @enduml
