@@ -61,17 +61,18 @@ frame Abel {
     ABL_TZ -down- ABL_INT
 }
 
+akldcgw -up- sydtgw
+    
 akltgw -[#orange] sydtgw : <color:orange>TGW Peering</color>
-azrakltgw -[#007777] azrsydtgw : <color:#007777>Peering</color>
 
-orbitdx -down- ORB_WANRTR : **DX**
-orbitdx -down- ABL_WANRTR : **DX**
+orbitdx -down[#orange]- ORB_WANRTR : **DX**
+orbitdx -down[#orange]- ABL_WANRTR : **DX**
 
-mayoraldrdx -down- ORB_WANRTR : **DX**
-mayoraldrdx -down- ABL_WANRTR : **DX**
+mayoraldrdx -down[#orange]- ORB_WANRTR : **DX**
+mayoraldrdx -down[#orange]- ABL_WANRTR : **DX**
 
-azrakler -down- ORB_WANRTR : **ER**
-azrakler -down- ABL_WANRTR : **ER**
+azrakler -down[#blue]- ORB_WANRTR : **ER**
+azrakler -down[#blue]- ABL_WANRTR : **ER**
 
 orbitdx - azrakler
 mayoraldrdx - azrakler
