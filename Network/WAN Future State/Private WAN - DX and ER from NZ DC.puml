@@ -1,0 +1,79 @@
+@startuml
+!include <office/all>
+!include <tupadr3/common>
+!include <awslib/all>
+!include <azure/all>
+
+
+title "WAN - Reimagined"
+
+frame AWS_SYD {
+    TransitGateway(sydtgw,"Sydney Transit Gateway",TGW)
+    FirewallManager(sydfortigate,"Sydney Fortigate",FW)
+    sydtgw - sydfortigate
+}
+
+frame AWS_AKL {
+    DirectConnect(orbitdx,"Orbit Dr DX",DX)
+    DirectConnect(mayoraldrdx,"Mayoral Dr DX",DX)
+    DirectConnectGateway(akldcgw,"Auckland Direct Connect Gateway",DCGW)    
+    TransitGateway(akltgw,"AWS Auckland Transit Gateway",TGW)
+    FirewallManager(aklfortigate,"Auckland Fortigate",FW)
+    akltgw - aklfortigate
+    akldcgw -up- akltgw
+    orbitdx -up- akldcgw
+    mayoraldrdx -up- akldcgw
+}
+
+frame AZR_SYD {
+    
+} 
+
+frame AZR_AKL {
+    AzureExpressRouteCircuit(azrakler,"Auckland ExpressRoute",ER)
+    }
+
+frame Orbit {
+    OFF_FIREWALL(ORB_RCN,"Retail Firewall")
+    OFF_FIREWALL(ORB_TZ,"TZ Firewall")
+    OFF_FIREWALL(ORB_BANKNET,"Banknet Firewall")
+    OFF_FIREWALL(ORB_INT,"Internal Firewall")
+    OFF_ROUTER(ORB_WANRTR,"WAN Router")   
+    ORB_WANRTR -down- ORB_TZ
+    ORB_BANKNET -down- ORB_TZ
+    ORB_RCN -down- ORB_INT
+    ORB_TZ -down- ORB_INT   
+}
+
+frame Kapua {
+    OFF_ROUTER(KAP_WANRTR,"WAN Router")
+}
+
+frame Abel {
+    OFF_FIREWALL(ABL_RCN,"Retail Firewall")
+    OFF_FIREWALL(ABL_TZ,"TZ Firewall")
+    OFF_FIREWALL(ABL_BANKNET,"Banknet Firewall")
+    OFF_FIREWALL(ABL_INT,"Internal Firewall")
+    OFF_ROUTER(ABL_WANRTR,"WAN Router")
+    ABL_WANRTR -down- ABL_TZ
+    ABL_BANKNET -down- ABL_TZ
+    ABL_RCN -down- ABL_INT
+    ABL_TZ -down- ABL_INT
+}
+
+akltgw -[#orange] sydtgw : <color:orange>TGW Peering</color>
+azrakltgw -[#007777] azrsydtgw : <color:#007777>Peering</color>
+
+orbitdx -down- ORB_WANRTR : **DX**
+orbitdx -down- ABL_WANRTR : **DX**
+
+mayoraldrdx -down- ORB_WANRTR : **DX**
+mayoraldrdx -down- ABL_WANRTR : **DX**
+
+azrakler -down- ORB_WANRTR : **ER**
+azrakler -down- ABL_WANRTR : **ER**
+
+orbitdx - azrakler
+mayoraldrdx - azrakler
+
+@enduml
