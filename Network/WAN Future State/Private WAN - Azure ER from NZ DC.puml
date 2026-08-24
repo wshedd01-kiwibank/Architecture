@@ -7,30 +7,13 @@
 
 title "WAN - Reimagined"
 
-frame AWS_SYD {
-    TransitGateway(sydtgw,"Sydney Transit Gateway",TGW)
-    FirewallManager(sydfortigate,"Sydney Fortigate",FW)
-    sydtgw - sydfortigate
-}
-
-frame AWS_AKL {
-    DirectConnect(orbitdx,"Orbit Dr DX",DX)
-    DirectConnect(mayoraldrdx,"Mayoral Dr DX",DX)
-    DirectConnectGateway(akldcgw,"Auckland Direct Connect Gateway",DCGW)    
-    TransitGateway(akltgw,"AWS Auckland Transit Gateway",TGW)
-    FirewallManager(aklfortigate,"Auckland Fortigate",FW)
-    akltgw - aklfortigate
-    akldcgw -up- akltgw
-    orbitdx -up- akldcgw
-    mayoraldrdx -up- akldcgw
-}
-
 frame AZR_SYD {
-    
+     AzureFirewall(azrsydfw,"Sydney Firewall",FW)
 } 
 
 frame AZR_AKL {
-    AzureExpressRouteCircuit(azrakler,"Auckland ExpressRoute",ER)
+    AzureExpressRouteCircuit(azrakler,"Auckland ExpressRoute (Vocus - Albany)",ER)
+    AzureFirewall(azraklfw,"Auckland Firewall",FW)
     }
 
 frame Orbit {
@@ -61,20 +44,10 @@ frame Abel {
     ABL_TZ -down- ABL_INT
 }
 
-akldcgw -up- sydtgw
-    
-akltgw -[#orange] sydtgw : <color:orange>TGW Peering</color>
-
-orbitdx -down[#orange]- ORB_WANRTR : **DX**
-orbitdx -down[#orange]- ABL_WANRTR : **DX**
-
-mayoraldrdx -down[#orange]- ORB_WANRTR : **DX**
-mayoraldrdx -down[#orange]- ABL_WANRTR : **DX**
+AZR_SYD - AZR_AKL : vNet Peering
 
 azrakler -down[#blue]- ORB_WANRTR : **ER**
 azrakler -down[#blue]- ABL_WANRTR : **ER**
 
-orbitdx - azrakler
-mayoraldrdx - azrakler
 
 @enduml

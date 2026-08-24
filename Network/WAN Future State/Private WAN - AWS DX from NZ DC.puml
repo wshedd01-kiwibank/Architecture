@@ -1,0 +1,75 @@
+@startuml
+!include <office/all>
+!include <tupadr3/common>
+!include <awslib/all>
+!include <azure/all>
+
+
+title "WAN - Reimagined"
+
+frame AWS_SYD {
+    TransitGateway(sydtgw,"Sydney Transit Gateway",TGW)
+    FirewallManager(sydfw,"Auckland Firewall",FW)
+    OFF_FIREWALL(sydfortigate,"Sydney Fortigate")
+    sydfw -down- sydtgw
+    sydtgw - sydfortigate
+}
+
+frame AWS_AKL {
+    DirectConnect(orbitdx,"Orbit Dr DX",DX)
+    DirectConnect(mayoraldrdx,"Mayoral Dr DX",DX)
+    DirectConnectGateway(akldcgw,"Auckland Direct Connect Gateway",DCGW)    
+    TransitGateway(akltgw,"AWS Auckland Transit Gateway",TGW)
+    FirewallManager(aklfw,"Auckland Firewall",FW)
+    OFF_FIREWALL(aklfortigate,"Auckland Fortigate")
+    aklfw -down- akltgw
+    akltgw - aklfortigate
+    akldcgw -up[#red]- akltgw : <color:red>**??**</color>
+    orbitdx -up- akldcgw
+    mayoraldrdx -up- akldcgw
+}
+
+frame Orbit {
+    OFF_FIREWALL(ORB_RCN,"Retail Firewall")
+    OFF_FIREWALL(ORB_TZ,"TZ Firewall")
+    OFF_FIREWALL(ORB_BANKNET,"Banknet Firewall")
+    OFF_FIREWALL(ORB_INT,"Internal Firewall")
+    OFF_ROUTER(ORB_WANRTR,"WAN Router")   
+    ORB_WANRTR -down- ORB_TZ
+    ORB_BANKNET -down- ORB_TZ
+    ORB_RCN -down- ORB_INT
+    ORB_TZ -down- ORB_INT   
+}
+
+frame Kapua {
+    OFF_ROUTER(KAP_WANRTR,"WAN Router")
+}
+
+frame Abel {
+    OFF_FIREWALL(ABL_RCN,"Retail Firewall")
+    OFF_FIREWALL(ABL_TZ,"TZ Firewall")
+    OFF_FIREWALL(ABL_BANKNET,"Banknet Firewall")
+    OFF_FIREWALL(ABL_INT,"Internal Firewall")
+    OFF_ROUTER(ABL_WANRTR,"WAN Router")
+    ABL_WANRTR -down- ABL_TZ
+    ABL_BANKNET -down- ABL_TZ
+    ABL_RCN -down- ABL_INT
+    ABL_TZ -down- ABL_INT
+}
+
+akldcgw -up[#red]- sydtgw : <color:red>**??**</color>
+    
+akltgw -[#orange] sydtgw : <color:orange>TGW Peering</color>
+
+ORB_WANRTR .up. akltgw : VPN
+ORB_WANRTR .up. sydtgw : VPN
+ABL_WANRTR .up. akltgw : VPN
+ABL_WANRTR .up. sydtgw : VPN
+
+orbitdx -down[#orange]- ORB_WANRTR : **DX**
+orbitdx -down[#orange]- ABL_WANRTR : **DX**
+
+mayoraldrdx -down[#orange]- ORB_WANRTR : **DX**
+mayoraldrdx -down[#orange]- ABL_WANRTR : **DX**
+
+@enduml

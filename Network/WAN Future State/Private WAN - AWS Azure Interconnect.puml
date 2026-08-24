@@ -1,0 +1,55 @@
+@startuml
+!include <office/all>
+!include <tupadr3/common>
+!include <awslib/all>
+!include <azure/all>
+
+
+title "WAN - Reimagined"
+
+frame AZR_SYD {
+    AzureExpressRouteCircuit(azrsyder,"Sydney ExpressRoute",ER)
+     AzureFirewall(azrsydfw,"Sydney Firewall",FW)
+} 
+
+frame AZR_AKL {
+    AzureExpressRouteCircuit(azrakler,"Auckland ExpressRoute (Vocus - Albany)",ER)
+    AzureFirewall(azraklfw,"Auckland Firewall",FW)
+    }
+
+frame AWS_SYD {
+    TransitGateway(sydtgw,"Sydney Transit Gateway",TGW)
+    FirewallManager(sydfw,"Auckland Firewall",FW)
+    DirectConnect(syddx,"Sydney DX",DX)
+    OFF_FIREWALL(sydfortigate,"Sydney Fortigate")
+    sydfw -down- sydtgw
+    sydtgw - sydfortigate
+    sydtgw .down. syddx : via DXGW
+}
+
+frame AWS_AKL {
+    DirectConnect(orbitdx,"Orbit Dr DX",DX)
+    DirectConnect(mayoraldrdx,"Mayoral Dr DX",DX)
+    DirectConnectGateway(dxgw,"Direct Connect Gateway",DXGW)    
+    TransitGateway(akltgw,"AWS Auckland Transit Gateway",TGW)
+    FirewallManager(aklfw,"Auckland Firewall",FW)
+    OFF_FIREWALL(aklfortigate,"Auckland Fortigate")
+    aklfw -down- akltgw
+    akltgw - aklfortigate
+    dxgw -up[#red]- akltgw : <color:red>**??**</color>
+    orbitdx -up- dxgw
+    mayoraldrdx -up- dxgw
+}
+
+
+
+dxgw -up[#red]- sydtgw : <color:red>**??**</color>
+dxgw - syddx
+    
+akltgw -[#orange] sydtgw : <color:orange>TGW Peering</color>
+
+azrakler -up[#red]- orbitdx : <color:red>**??**</color>
+azrakler -up[#red]-mayoraldrdx : <color:red>**??**</color>
+azrsyder -up[#red]- syddx : <color:red>**??**</color>
+
+@enduml
