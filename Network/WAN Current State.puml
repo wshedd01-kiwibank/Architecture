@@ -1,0 +1,89 @@
+@startuml
+!include <office/all>
+!include <tupadr3/common>
+
+
+title "WAN - Reimagined"
+
+
+cloud "Global Internet" {
+    cloud "Spark Internet"
+    cloud "2degrees Internet"
+    cloud "AKAMAI" {
+        rectangle "WAF" as akamaiwaf
+        rectangle "Prolexic" as prolexic
+    }    
+}
+
+cloud "Megaport" {
+    rectangle "AKL MCR" as aklmcr
+    rectangle "SYD MCR" as sydmcr
+    rectangle "MEL MCR" as melmcr
+}
+
+cloud "ACI Performance Hubs" {
+    rectangle "SYD ACI PH" as sydph
+    rectangle "MEL ACI PH" as melph
+}
+
+frame AWS_SYD_PROD {
+    rectangle "Sydney Transit Gateway" as sydtgw
+    rectangle "AWS SYD Fortigate" as sydfortigate
+    sydtgw - sydfortigate
+}
+frame AWS_SYD_NONPROD {
+    rectangle "Sydney Transit Gateway" as sydtgwnp
+    rectangle "AWS SYD Fortigate" as sydfortigatenp
+    sydtgwnp - sydfortigatenp
+}
+frame Orbit {
+    OFF_FIREWALL(ORB_TZ,"TZ Firewall")
+    OFF_FIREWALL(ORB_INT,"Internal Firewall")
+    OFF_ROUTER(ORB_WANRTR,"WAN Router")   
+}
+frame Kapua {
+    OFF_FIREWALL(KAP_TZ,"TZ Firewall")
+}
+
+frame Abel {
+    OFF_FIREWALL(ABL_TZ,"TZ Firewall")
+    OFF_FIREWALL(ABL_INT,"Internal Firewall")
+    OFF_ROUTER(ABL_WANRTR,"WAN Router")
+}
+
+"Spark Internet" -[#770077]- ABL_TZ
+"2degrees Internet" -[#770077]- ORB_TZ
+"2degrees Internet" -[#770077]- KAP_TZ
+
+sydtgw -down- aklmcr : DX
+sydtgw -down- sydmcr : DX
+sydtgw -down- melmcr : DX
+
+sydmcr -up- sydph : VXC
+melmcr -up- melph : VXC
+
+ aklmcr -down- ORB_WANRTR : VXC
+ sydmcr -down- ORB_WANRTR : VXC
+
+ aklmcr -down- ABL_WANRTR : VXC
+ sydmcr -down- ABL_WANRTR : VXC
+
+ORB_WANRTR -down- ORB_TZ
+ABL_WANRTR -down- ABL_TZ
+
+ABL_TZ -down- ABL_INT
+ORB_TZ -down- ORB_INT   
+
+sydfortigate -down- "Global Internet"
+sydfortigatenp -down- "Global Internet"
+
+KAP_TZ .[#ff0000]. sydtgwnp : "Internet VPN"
+
+ABL_TZ .[#ff0000]. sydtgw : "Internet VPN"
+ABL_TZ .[#ff0000]. sydtgw : "VPN over Megaport"
+
+ORB_TZ .[#ff0000]. sydtgw : "Internet VPN"
+ORB_TZ .[#ff0000]. sydtgw : "VPN over Megaport"
+
+
+@enduml

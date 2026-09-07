@@ -18,15 +18,15 @@ frame AWS_SYD {
 frame AWS_AKL {
     DirectConnect(orbitdx,"Orbit Dr DX",DX)
     DirectConnect(mayoraldrdx,"Mayoral Dr DX",DX)
-    DirectConnectGateway(akldcgw,"Auckland Direct Connect Gateway",DCGW)    
+    DirectConnectGateway(dcgw,"Direct Connect Gateway",DCGW)    
     TransitGateway(akltgw,"AWS Auckland Transit Gateway",TGW)
     FirewallManager(aklfw,"Auckland Firewall",FW)
     OFF_FIREWALL(aklfortigate,"Auckland Fortigate")
     aklfw -down- akltgw
     akltgw - aklfortigate
-    akldcgw -up[#red]- akltgw : <color:red>**??**</color>
-    orbitdx -up- akldcgw
-    mayoraldrdx -up- akldcgw
+    dcgw -up[#red]- akltgw : <color:red>**??**</color>
+    orbitdx -up- dcgw
+    mayoraldrdx -up- dcgw
 }
 
 frame Orbit {
@@ -57,7 +57,7 @@ frame Abel {
     ABL_TZ -down- ABL_INT
 }
 
-akldcgw -up[#red]- sydtgw : <color:red>**??**</color>
+dcgw -up[#red]- sydtgw : <color:red>**??**</color>
     
 akltgw -[#orange] sydtgw : <color:orange>TGW Peering</color>
 
