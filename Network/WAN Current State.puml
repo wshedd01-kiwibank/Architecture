@@ -3,16 +3,12 @@
 !include <tupadr3/common>
 
 
-title "WAN - Reimagined"
+title "WAN - Current State"
 
 
 cloud "Global Internet" {
     cloud "Spark Internet"
     cloud "2degrees Internet"
-    cloud "AKAMAI" {
-        rectangle "WAF" as akamaiwaf
-        rectangle "Prolexic" as prolexic
-    }    
 }
 
 cloud "Megaport" {
@@ -36,6 +32,11 @@ frame AWS_SYD_NONPROD {
     rectangle "AWS SYD Fortigate" as sydfortigatenp
     sydtgwnp - sydfortigatenp
 }
+
+frame AZR_SYD {
+    rectangle "Azure Sydney Access" as azrsydtgw
+} 
+
 frame Orbit {
     OFF_FIREWALL(ORB_TZ,"TZ Firewall")
     OFF_FIREWALL(ORB_INT,"Internal Firewall")
@@ -55,35 +56,44 @@ frame Abel {
 "2degrees Internet" -[#770077]- ORB_TZ
 "2degrees Internet" -[#770077]- KAP_TZ
 
-sydtgw -down- aklmcr : DX
-sydtgw -down- sydmcr : DX
-sydtgw -down- melmcr : DX
+sydtgw -- aklmcr : DX
+sydtgw -- sydmcr : DX
+sydtgw -- melmcr : DX
+
+azrsydtgw -- aklmcr : ER
+azrsydtgw -- sydmcr : ER
 
 sydmcr -up- sydph : VXC
 melmcr -up- melph : VXC
 
- aklmcr -down- ORB_WANRTR : VXC
- sydmcr -down- ORB_WANRTR : VXC
+ aklmcr -- ORB_WANRTR : VXC
+ sydmcr -- ORB_WANRTR : VXC
 
- aklmcr -down- ABL_WANRTR : VXC
- sydmcr -down- ABL_WANRTR : VXC
+ aklmcr -- ABL_WANRTR : VXC
+ sydmcr -- ABL_WANRTR : VXC
 
-ORB_WANRTR -down- ORB_TZ
-ABL_WANRTR -down- ABL_TZ
+ORB_WANRTR -- ORB_TZ
+ABL_WANRTR -- ABL_TZ
 
-ABL_TZ -down- ABL_INT
-ORB_TZ -down- ORB_INT   
+ABL_TZ -- ABL_INT
+ORB_TZ -- ORB_INT   
 
-sydfortigate -down- "Global Internet"
-sydfortigatenp -down- "Global Internet"
+sydfortigate -- "Global Internet"
+sydfortigatenp -- "Global Internet"
 
-KAP_TZ .[#ff0000]. sydtgwnp : "Internet VPN"
+KAP_TZ .[#ff0000]. sydtgwnp : <color:red>"Internet VPN"</color>
 
-ABL_TZ .[#ff0000]. sydtgw : "Internet VPN"
-ABL_TZ .[#ff0000]. sydtgw : "VPN over Megaport"
+ABL_TZ .[#ff0000]. sydtgw : <color:red>"Internet VPN"</color>
+ABL_TZ .[#ff0000]. sydtgw : <color:red>"VPN over Megaport"</color>
+ABL_TZ .[#ff0000]. azrsydtgw : <color:red>"Internet VPN"</color>
+ABL_TZ .[#ff0000]. azrsydtgw : <color:red>"VPN over Megaport"</color>
 
-ORB_TZ .[#ff0000]. sydtgw : "Internet VPN"
-ORB_TZ .[#ff0000]. sydtgw : "VPN over Megaport"
+ORB_TZ .[#ff0000]. sydtgw : <color:red>"Internet VPN"</color>
+ORB_TZ .[#ff0000]. sydtgw : <color:red>"VPN over Megaport"</color>
+ORB_TZ .[#ff0000]. azrsydtgw : <color:red>"Internet VPN"</color>
+ORB_TZ .[#ff0000]. azrsydtgw : <color:red>"VPN over Megaport"</color>
 
+sydtgw .[#ff0000]up. sydph : <color:red>"Internet VPN"</color>
+sydtgw .[#ff0000]up. melph : <color:red>"Internet VPN"</color>
 
 @enduml
