@@ -1,4 +1,5 @@
 @startuml
+skinparam linetype ortho
 !include <office/all>
 !include <tupadr3/common>
 
@@ -7,8 +8,8 @@ title "WAN - Current State"
 
 
 cloud "Global Internet" {
-    cloud "Spark Internet"
     cloud "2degrees Internet"
+    cloud "Spark Internet"
 }
 
 cloud "Megaport" {
@@ -29,8 +30,6 @@ frame AWS_SYD_PROD {
 }
 frame AWS_SYD_NONPROD {
     rectangle "Sydney Transit Gateway" as sydtgwnp
-    rectangle "AWS SYD Fortigate" as sydfortigatenp
-    sydtgwnp - sydfortigatenp
 }
 
 frame AZR_SYD {
@@ -52,34 +51,33 @@ frame Abel {
     OFF_ROUTER(ABL_WANRTR,"WAN Router")
 }
 
-"Spark Internet" -[#770077]- ABL_TZ
-"2degrees Internet" -[#770077]- ORB_TZ
-"2degrees Internet" -[#770077]- KAP_TZ
+"2degrees Internet" -[#00ff00]- ORB_TZ
+"2degrees Internet" -[#00ff00]- KAP_TZ
+"Spark Internet" -[#00ff00]- ABL_TZ
 
-sydtgw -- aklmcr : DX
-sydtgw -- sydmcr : DX
-sydtgw -- melmcr : DX
 
-azrsydtgw -- aklmcr : ER
-azrsydtgw -- sydmcr : ER
+sydtgw -up[#0000ff]- aklmcr : DX
+sydtgw -up[#0000ff]- sydmcr : DX
+sydtgw -up[#0000ff]- melmcr : DX
 
-sydmcr -up- sydph : VXC
-melmcr -up- melph : VXC
+azrsydtgw -up[#0000ff]- sydmcr : ER
 
- aklmcr -- ORB_WANRTR : VXC
- sydmcr -- ORB_WANRTR : VXC
+sydmcr -up[#0000ff]- sydph : VXC
+melmcr -up[#0000ff]- melph : VXC
 
- aklmcr -- ABL_WANRTR : VXC
- sydmcr -- ABL_WANRTR : VXC
+ aklmcr -down[#0000ff]- ORB_WANRTR : VXC
+ sydmcr -down[#0000ff]- ORB_WANRTR : VXC
 
-ORB_WANRTR -- ORB_TZ
-ABL_WANRTR -- ABL_TZ
+ aklmcr -down[#0000ff]- ABL_WANRTR : VXC
+ sydmcr -down[#0000ff]- ABL_WANRTR : VXC
 
-ABL_TZ -- ABL_INT
-ORB_TZ -- ORB_INT   
+ORB_WANRTR - ORB_TZ
+ABL_WANRTR - ABL_TZ
 
-sydfortigate -- "Global Internet"
-sydfortigatenp -- "Global Internet"
+ABL_TZ -down- ABL_INT
+ORB_TZ -down- ORB_INT   
+
+sydfortigate -down[#00ff00]- "Global Internet"
 
 KAP_TZ .[#ff0000]. sydtgwnp : <color:red>"Internet VPN"</color>
 
@@ -93,7 +91,7 @@ ORB_TZ .[#ff0000]. sydtgw : <color:red>"VPN over Megaport"</color>
 ORB_TZ .[#ff0000]. azrsydtgw : <color:red>"Internet VPN"</color>
 ORB_TZ .[#ff0000]. azrsydtgw : <color:red>"VPN over Megaport"</color>
 
-sydtgw .[#ff0000]up. sydph : <color:red>"Internet VPN"</color>
-sydtgw .[#ff0000]up. melph : <color:red>"Internet VPN"</color>
+sydtgw .[#ff0000]. sydph : <color:red>"Internet VPN"</color>
+sydtgw .[#ff0000]. melph : <color:red>"Internet VPN"</color>
 
 @enduml
