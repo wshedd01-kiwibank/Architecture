@@ -39,22 +39,36 @@ frame AZR_SYD {
 frame Orbit {
     OFF_FIREWALL(ORB_TZ,"TZ Firewall")
     OFF_FIREWALL(ORB_INT,"Internal Firewall")
-    OFF_ROUTER(ORB_WANRTR,"WAN Router")   
+    OFF_ROUTER(ORB_WANRTR,"WAN Router")
+    OFF_SWITCH(ORB_LANSW,"LAN Switch")
+    ORB_WANRTR - ORB_TZ
+    ORB_TZ -down- ORB_INT
+    ORB_INT -down-ORB_LANSW
 }
+
 frame Kapua {
     OFF_FIREWALL(KAP_TZ,"TZ Firewall")
+    OFF_SWITCH(KAP_LANSW,"LAN Switch")
+    KAP_TZ -down- KAP_LANSW
 }
 
 frame Abel {
     OFF_FIREWALL(ABL_TZ,"TZ Firewall")
     OFF_FIREWALL(ABL_INT,"Internal Firewall")
     OFF_ROUTER(ABL_WANRTR,"WAN Router")
+    OFF_SWITCH(ABL_LANSW,"LAN Switch")
+    ABL_WANRTR - ABL_TZ
+    ABL_TZ -down- ABL_INT
+    ABL_INT -down-ABL_LANSW
 }
 
 "2degrees Internet" -[#00ff00]- ORB_TZ
 "2degrees Internet" -[#00ff00]- KAP_TZ
 "Spark Internet" -[#00ff00]- ABL_TZ
 
+ABL_LANSW - ORB_LANSW : <color:blue>"MACsec/MPLS"</color>
+ABL_LANSW - KAP_LANSW : <color:blue>"MACsec/MPLS"</color>
+ORB_LANSW - KAP_LANSW : <color:blue>"MACsec/MPLS"</color>
 
 sydtgw -up[#0000ff]- aklmcr : DX
 sydtgw -up[#0000ff]- sydmcr : DX
@@ -71,11 +85,7 @@ melmcr -up[#0000ff]- melph : VXC
  aklmcr -down[#0000ff]- ABL_WANRTR : VXC
  sydmcr -down[#0000ff]- ABL_WANRTR : VXC
 
-ORB_WANRTR - ORB_TZ
-ABL_WANRTR - ABL_TZ
 
-ABL_TZ -down- ABL_INT
-ORB_TZ -down- ORB_INT   
 
 sydfortigate -down[#00ff00]- "Global Internet"
 

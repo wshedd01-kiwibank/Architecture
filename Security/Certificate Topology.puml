@@ -1,0 +1,20 @@
+@startuml
+!include <office/all>
+!include <azure/all>
+!include <tupadr3/common>
+
+title "Certificate Topology"
+
+rectangle "Root CA" {
+    rectangle "NEW Root Cert" {
+    }
+}
+
+rectangle "Issuing CA - MS ADCS" {
+}   
+
+rectangle "Issuing CA - AWS ACM" {
+}
+
+
+@enduml
